@@ -1,6 +1,0 @@
-{
-  "name": "Vidyasys",
-  "description": "Vidyasys — One platform where students Learn, Share, Build & Grow. Student-focused academic ecosystem to rent senior notes, buy and rent academic projects, book peer tutors, and access campus resources.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

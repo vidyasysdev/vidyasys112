@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /app/
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://vidyasys.vercel.app/sitemap.xml
