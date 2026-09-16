@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Bell, PlusCircle, Search } from "lucide-react";
 import { getInitials } from "@/lib/utils";

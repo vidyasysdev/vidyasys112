@@ -13,15 +13,16 @@ export default async function AppHomePage() {
 
   const displayName = profile?.full_name || user?.user_metadata?.full_name || "Student";
 
-  const { count: listingsCount } = await supabase
-    .from("listings")
-    .select("*", { count: "exact", head: true })
-    .eq("status", "approved");
-
-  const { count: ordersCount } = await supabase
-    .from("orders")
-    .select("*", { count: "exact", head: true })
-    .eq("buyer_id", user?.id || "");
+  const [{ count: listingsCount }, { count: ordersCount }] = await Promise.all([
+    supabase
+      .from("listings")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "approved"),
+    supabase
+      .from("orders")
+      .select("*", { count: "exact", head: true })
+      .eq("buyer_id", user?.id || ""),
+  ]);
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">

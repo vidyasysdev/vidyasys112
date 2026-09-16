@@ -2,6 +2,8 @@ import { PublicHeader } from "@/components/layout/PublicHeader";
 import { Footer } from "@/components/layout/Footer";
 import { Search, ShieldCheck, Package, CreditCard, CheckCircle } from "lucide-react";
 
+export const dynamic = "force-static";
+
 export const metadata = {
   title: "How It Works",
   description: "Learn how Vidyasys works — join with your college email, browse verified listings, and transact safely on campus.",

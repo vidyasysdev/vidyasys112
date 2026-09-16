@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import Image from "next/image";
 import { Search, Filter, BookOpen, Cpu, Wrench, Package } from "lucide-react";
 
 export const metadata = {

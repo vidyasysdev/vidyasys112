@@ -1,6 +1,8 @@
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { Footer } from "@/components/layout/Footer";
 
+export const dynamic = "force-static";
+
 export const metadata = {
   title: "Find Peer Tutors",
   description: "Book verified peer tutors at your college for 1-on-1 or group tutoring sessions on Vidyasys.",

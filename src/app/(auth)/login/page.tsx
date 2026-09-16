@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { GraduationCap, Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -54,11 +55,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
-            <GraduationCap className="w-10 h-10 text-brand-600" />
-            <div className="flex items-baseline">
-              <span className="text-2xl font-black tracking-tight text-brand-950">Vidya</span>
-              <span className="text-2xl font-black tracking-tight text-brand-600">sys</span>
-            </div>
+            <Image src="/images/logo.png" alt="Vidyasys" width={48} height={48} className="h-10 w-auto" />
           </Link>
           <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
           <p className="text-sm text-slate-600">Sign in to your student account</p>

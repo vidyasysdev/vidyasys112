@@ -1,6 +1,8 @@
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { Footer } from "@/components/layout/Footer";
 
+export const dynamic = "force-static";
+
 export const metadata = {
   title: "Explore Marketplace",
   description: "Browse verified academic notes, projects, hardware kits, and student essentials on Vidyasys.",

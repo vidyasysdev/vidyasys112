@@ -13,25 +13,25 @@ export default async function ProfilePage() {
 
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("user_id", user.id)
-    .single();
-
-  const { data: listings } = await supabase
-    .from("listings")
-    .select("id, title, price, status")
-    .eq("seller_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(10);
-
-  const { data: reviews } = await supabase
-    .from("reviews")
-    .select("rating, comment, created_at")
-    .eq("reviewee_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(5);
+  const [{ data: profile }, { data: listings }, { data: reviews }] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("*")
+      .eq("user_id", user.id)
+      .single(),
+    supabase
+      .from("listings")
+      .select("id, title, price, status")
+      .eq("seller_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(10),
+    supabase
+      .from("reviews")
+      .select("rating, comment, created_at")
+      .eq("reviewee_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(5),
+  ]);
 
   const displayName = profile?.full_name || user.user_metadata?.full_name || "Student";
   const avgRating = reviews && reviews.length > 0

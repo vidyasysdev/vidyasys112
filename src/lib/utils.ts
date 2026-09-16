@@ -51,3 +51,19 @@ export function generateOrderNumber(collegeCode: string): string {
   const num = Math.floor(1000 + Math.random() * 9000);
   return `ORD-${collegeCode.toUpperCase()}-${num}`;
 }
+
+export const APPROVED_DOMAINS = [
+  "vit.edu.in",
+  "vp.edu.in",
+  "vpt.edu.in",
+  "iitb.ac.in",
+  "bits-pilani.ac.in",
+  "dtu.ac.in",
+  "annauniv.edu",
+  "rvce.edu.in",
+];
+
+export function isApprovedDomain(email: string): boolean {
+  const domain = email.split("@")[1];
+  return domain ? APPROVED_DOMAINS.includes(domain) : false;
+}

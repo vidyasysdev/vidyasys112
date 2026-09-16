@@ -2,6 +2,8 @@ import { PublicHeader } from "@/components/layout/PublicHeader";
 import { Footer } from "@/components/layout/Footer";
 import { Mail, MapPin } from "lucide-react";
 
+export const dynamic = "force-static";
+
 export const metadata = {
   title: "Contact",
   description: "Get in touch with the Vidyasys team for support, partnerships, or inquiries.",

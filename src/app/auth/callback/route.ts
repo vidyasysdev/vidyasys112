@@ -1,16 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-
-const APPROVED_DOMAINS = [
-  "vit.edu.in",
-  "vp.edu.in",
-  "vpt.edu.in",
-  "iitb.ac.in",
-  "bits-pilani.ac.in",
-  "dtu.ac.in",
-  "annauniv.edu",
-  "rvce.edu.in",
-];
+import { APPROVED_DOMAINS } from "@/lib/utils";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);

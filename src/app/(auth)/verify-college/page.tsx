@@ -1,26 +1,21 @@
 "use client";
 
+import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { GraduationCap, Mail, ArrowRight, Loader2, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Mail, KeyRound, ArrowRight, Loader2, CheckCircle2, ShieldCheck } from "lucide-react";
+import { APPROVED_DOMAINS } from "@/lib/utils";
 
-const APPROVED_DOMAINS = [
-  "vit.edu.in",
-  "vp.edu.in",
-  "vpt.edu.in",
-  "iitb.ac.in",
-  "bits-pilani.ac.in",
-  "dtu.ac.in",
-  "annauniv.edu",
-  "rvce.edu.in",
-];
+type Step = "email" | "otp" | "done";
 
 export default function VerifyCollegePage() {
+  const [step, setStep] = useState<Step>("email");
   const [collegeEmail, setCollegeEmail] = useState("");
+  const [otp, setOtp] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [done, setDone] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -31,73 +26,89 @@ export default function VerifyCollegePage() {
     return null;
   };
 
-  const handleVerify = async (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     const domain = getCollegeFromEmail(collegeEmail);
     if (!domain) {
-      setError("Please use your college email. We currently support approved college domains.");
+      setError("Please use your college email from an approved domain.");
       setLoading(false);
       return;
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const { error } = await supabase.auth.signInWithOtp({
+      email: collegeEmail,
+    });
 
-    if (!user) {
-      setError("You're not logged in. Please sign in again.");
+    if (error) {
+      setError(error.message);
       setLoading(false);
       return;
     }
 
-    const { data: existing } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("user_id", user.id)
-      .single();
-
-    if (existing) {
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({
-          email: collegeEmail,
-          college_id: domain,
-          verification_status: "verified",
-        })
-        .eq("user_id", user.id);
-
-      if (updateError) {
-        setError(updateError.message);
-        setLoading(false);
-        return;
-      }
-    } else {
-      const { error: insertError } = await supabase
-        .from("profiles")
-        .insert({
-          user_id: user.id,
-          email: collegeEmail,
-          full_name: user.user_metadata?.full_name || user.user_metadata?.name || "",
-          college_id: domain,
-          branch: "",
-          semester: 1,
-          year_of_study: 1,
-          verification_status: "verified",
-        });
-
-      if (insertError) {
-        setError(insertError.message);
-        setLoading(false);
-        return;
-      }
-    }
-
-    setDone(true);
+    setStep("otp");
     setLoading(false);
   };
 
-  if (done) {
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const { data, error } = await supabase.auth.verifyOtp({
+      email: collegeEmail,
+      token: otp,
+      type: "email",
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    const domain = getCollegeFromEmail(collegeEmail);
+    const userId = data.user?.id;
+
+    if (userId) {
+      const { data: existing } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("user_id", userId)
+        .single();
+
+      if (existing) {
+        await supabase
+          .from("profiles")
+          .update({
+            email: collegeEmail,
+            college_id: domain || "",
+            verification_status: "verified",
+          })
+          .eq("user_id", userId);
+      } else {
+        await supabase
+          .from("profiles")
+          .insert({
+            user_id: userId,
+            email: collegeEmail,
+            full_name: data.user?.user_metadata?.full_name || collegeEmail.split("@")[0],
+            college_id: domain || "",
+            branch: "",
+            semester: 1,
+            year_of_study: 1,
+            verification_status: "verified",
+          });
+      }
+    }
+
+    setStep("done");
+    setLoading(false);
+  };
+
+  if (step === "done") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
         <div className="w-full max-w-md text-center space-y-4 bg-white rounded-2xl border border-slate-200 p-8">
@@ -125,11 +136,7 @@ export default function VerifyCollegePage() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
-            <GraduationCap className="w-10 h-10 text-brand-600" />
-            <div className="flex items-baseline">
-              <span className="text-2xl font-black tracking-tight text-brand-950">Vidya</span>
-              <span className="text-2xl font-black tracking-tight text-brand-600">sys</span>
-            </div>
+            <Image src="/images/logo.png" alt="Vidyasys" width={48} height={48} className="h-10 w-auto" />
           </Link>
           <h1 className="text-2xl font-bold text-slate-900">Verify your college</h1>
           <p className="text-sm text-slate-600">
@@ -141,7 +148,7 @@ export default function VerifyCollegePage() {
           <div className="flex items-center gap-3 p-3 rounded-lg bg-brand-50 border border-brand-100">
             <ShieldCheck className="w-5 h-5 text-brand-600 shrink-0" />
             <p className="text-xs text-brand-700">
-              You signed up with Google. Enter your <strong>college email</strong> to unlock full access.
+              Enter your <strong>college email</strong> and verify with the OTP sent to it.
             </p>
           </div>
 
@@ -151,43 +158,95 @@ export default function VerifyCollegePage() {
             </div>
           )}
 
-          <form onSubmit={handleVerify} className="space-y-4">
-            <div className="space-y-1.5">
-              <label htmlFor="collegeEmail" className="text-sm font-semibold text-slate-700">
-                College Email
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  id="collegeEmail"
-                  type="email"
-                  value={collegeEmail}
-                  onChange={(e) => setCollegeEmail(e.target.value)}
-                  placeholder="you@vpt.edu.in"
-                  required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-                />
+          {step === "email" && (
+            <form onSubmit={handleSendOtp} className="space-y-4">
+              <div className="space-y-1.5">
+                <label htmlFor="collegeEmail" className="text-sm font-semibold text-slate-700">
+                  College Email
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    id="collegeEmail"
+                    type="email"
+                    value={collegeEmail}
+                    onChange={(e) => setCollegeEmail(e.target.value)}
+                    placeholder="you@vpt.edu.in"
+                    required
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                  />
+                </div>
+                <p className="text-xs text-slate-500">
+                  We&apos;ll send a one-time code to verify you&apos;re a student.
+                </p>
               </div>
-              <p className="text-xs text-slate-500">
-                Must be from an approved college domain.
-              </p>
-            </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <>
-                  Verify & Continue
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>
+                    Send Verification Code
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
+
+          {step === "otp" && (
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
+              <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-700">
+                Code sent to <strong>{collegeEmail}</strong>. Check your inbox.
+              </div>
+
+              <div className="space-y-1.5">
+                <label htmlFor="otp" className="text-sm font-semibold text-slate-700">
+                  Verification Code
+                </label>
+                <div className="relative">
+                  <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    id="otp"
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter 6-digit code"
+                    required
+                    maxLength={6}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>
+                    Verify & Continue
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { setStep("email"); setOtp(""); setError(null); }}
+                className="w-full text-center text-sm text-slate-500 hover:text-slate-700"
+              >
+                Change email address
+              </button>
+            </form>
+          )}
         </div>
 
         <p className="text-center text-sm text-slate-600">

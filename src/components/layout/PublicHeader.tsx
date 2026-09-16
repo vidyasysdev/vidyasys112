@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { GraduationCap, Menu, X } from "lucide-react";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 export function PublicHeader() {
@@ -11,15 +12,14 @@ export function PublicHeader() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
-          <GraduationCap className="w-8 h-8 text-brand-600" />
-          <div className="flex items-baseline">
-            <span className="text-xl font-black tracking-tight text-brand-950">
-              Vidya
-            </span>
-            <span className="text-xl font-black tracking-tight text-brand-600">
-              sys
-            </span>
-          </div>
+          <Image
+            src="/images/logo.png"
+            alt="Vidyasys"
+            width={40}
+            height={40}
+            className="h-8 w-auto"
+            priority
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">

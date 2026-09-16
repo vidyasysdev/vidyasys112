@@ -1,16 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-
-const APPROVED_DOMAINS = [
-  "vit.edu.in",
-  "vp.edu.in",
-  "vpt.edu.in",
-  "iitb.ac.in",
-  "bits-pilani.ac.in",
-  "dtu.ac.in",
-  "annauniv.edu",
-  "rvce.edu.in",
-];
+import { APPROVED_DOMAINS } from "@/lib/utils";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({

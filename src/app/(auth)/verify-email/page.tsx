@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { GraduationCap, Mail } from "lucide-react";
+import Image from "next/image";
+import { Mail } from "lucide-react";
 
 export const metadata = {
   title: "Verify Email",

@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { GraduationCap, ArrowRight, BookOpen, Cpu, Users, Star, ShieldCheck, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, BookOpen, Cpu, Users, Star, ShieldCheck, ChevronRight } from "lucide-react";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { Footer } from "@/components/layout/Footer";
+
+export const dynamic = "force-static";
 
 export default function HomePage() {
   return (
@@ -17,7 +20,7 @@ export default function HomePage() {
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-28 lg:py-36">
             <div className="max-w-4xl mx-auto text-center space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-blue-200/90 shadow-sm">
-                <GraduationCap className="w-4 h-4 text-brand-600" />
+                <Image src="/images/logo.png" alt="" width={20} height={20} className="h-4 w-auto" />
                 <span className="text-sm font-semibold text-brand-900">
                   College-Only Student Ecosystem
                 </span>

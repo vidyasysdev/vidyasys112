@@ -3,6 +3,8 @@ import { GraduationCap } from "lucide-react";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { Footer } from "@/components/layout/Footer";
 
+export const dynamic = "force-static";
+
 export const metadata = {
   title: "About",
   description:

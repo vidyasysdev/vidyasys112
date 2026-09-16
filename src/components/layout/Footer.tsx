@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { GraduationCap } from "lucide-react";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -8,15 +8,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="space-y-3">
             <Link href="/" className="flex items-center gap-2.5">
-              <GraduationCap className="w-7 h-7 text-brand-600" />
-              <div className="flex items-baseline">
-                <span className="text-lg font-black tracking-tight text-brand-950">
-                  Vidya
-                </span>
-                <span className="text-lg font-black tracking-tight text-brand-600">
-                  sys
-                </span>
-              </div>
+              <Image
+                src="/images/logo.png"
+                alt="Vidyasys"
+                width={36}
+                height={36}
+                className="h-7 w-auto"
+              />
             </Link>
             <p className="text-xs text-slate-500 leading-relaxed">
               One platform where students Learn, Share, Build &amp; Grow.
