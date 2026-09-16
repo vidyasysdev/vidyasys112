@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -193,9 +192,20 @@ export default function VerifyCollegePage() {
 
         <p className="text-center text-sm text-slate-600">
           Want to use email/password instead?{" "}
-          <Link href="/signup" className="font-semibold text-brand-600 hover:text-brand-700">
+          <button
+            onClick={async () => { await supabase.auth.signOut(); window.location.href = "/signup"; }}
+            className="font-semibold text-brand-600 hover:text-brand-700"
+          >
             Sign up with college email
-          </Link>
+          </button>
+        </p>
+        <p className="text-center text-xs text-slate-400">
+          <button
+            onClick={async () => { await supabase.auth.signOut(); window.location.href = "/login"; }}
+            className="hover:text-slate-600"
+          >
+            Sign out and use a different account
+          </button>
         </p>
       </div>
     </div>
