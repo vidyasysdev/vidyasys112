@@ -4,6 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 const APPROVED_DOMAINS = [
   "vit.edu.in",
   "vp.edu.in",
+  "vpt.edu.in",
   "iitb.ac.in",
   "bits-pilani.ac.in",
   "dtu.ac.in",
