@@ -1,6 +1,16 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const APPROVED_DOMAINS = [
+  "vit.edu.in",
+  "vp.edu.in",
+  "iitb.ac.in",
+  "bits-pilani.ac.in",
+  "dtu.ac.in",
+  "annauniv.edu",
+  "rvce.edu.in",
+];
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -35,31 +45,67 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  // Public routes that don't require auth
-  const publicRoutes = ["/", "/about", "/how-it-works", "/explore", "/tutors", "/contact", "/login", "/signup", "/verify-email"];
+  const publicRoutes = ["/", "/about", "/how-it-works", "/explore", "/tutors", "/contact", "/login", "/signup", "/verify-email", "/verify-college"];
   const isPublicRoute = publicRoutes.some((route) => pathname === route);
 
-  // Admin routes
   const isAdminRoute = pathname.startsWith("/admin");
-
-  // Protected routes (student app)
   const isProtectedRoute = pathname.startsWith("/app");
+  const isVerifyCollege = pathname === "/verify-college";
 
-  // Redirect unauthenticated users away from protected routes
   if (isProtectedRoute && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  // Redirect authenticated users away from auth pages
-  if ((pathname === "/login" || pathname === "/signup") && user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/app";
-    return NextResponse.redirect(url);
+  if (isProtectedRoute && user && !isVerifyCollege) {
+    const email = user.email || "";
+    const domain = email.split("@")[1] || "";
+    const isApprovedDomain = APPROVED_DOMAINS.includes(domain);
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("verification_status")
+      .eq("user_id", user.id)
+      .single();
+
+    if (!profile || profile.verification_status !== "verified") {
+      if (!isVerifyCollege) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/verify-college";
+        return NextResponse.redirect(url);
+      }
+    }
   }
 
-  // Redirect non-admin users away from admin routes
+  if ((pathname === "/login" || pathname === "/signup") && user) {
+    const email = user.email || "";
+    const domain = email.split("@")[1] || "";
+    const isApprovedDomain = APPROVED_DOMAINS.includes(domain);
+
+    if (isApprovedDomain) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/app";
+      return NextResponse.redirect(url);
+    } else {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("verification_status")
+        .eq("user_id", user.id)
+        .single();
+
+      if (profile && profile.verification_status === "verified") {
+        const url = request.nextUrl.clone();
+        url.pathname = "/app";
+        return NextResponse.redirect(url);
+      } else {
+        const url = request.nextUrl.clone();
+        url.pathname = "/verify-college";
+        return NextResponse.redirect(url);
+      }
+    }
+  }
+
   if (isAdminRoute && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
