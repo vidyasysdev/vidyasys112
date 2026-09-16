@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { GraduationCap, Mail, KeyRound, ArrowRight, Loader2, CheckCircle2, ShieldCheck } from "lucide-react";
+import { GraduationCap, Mail, ArrowRight, Loader2, CheckCircle2, ShieldCheck } from "lucide-react";
 
 const APPROVED_DOMAINS = [
   "vit.edu.in",
@@ -17,14 +17,11 @@ const APPROVED_DOMAINS = [
   "rvce.edu.in",
 ];
 
-type Step = "email" | "otp" | "done";
-
 export default function VerifyCollegePage() {
-  const [step, setStep] = useState<Step>("email");
   const [collegeEmail, setCollegeEmail] = useState("");
-  const [otp, setOtp] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -35,7 +32,7 @@ export default function VerifyCollegePage() {
     return null;
   };
 
-  const handleSendOtp = async (e: React.FormEvent) => {
+  const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -47,60 +44,34 @@ export default function VerifyCollegePage() {
       return;
     }
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email: collegeEmail,
-      options: {
-        shouldCreateUser: false,
-      },
-    });
-
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
-    }
-
-    setStep("otp");
-    setLoading(false);
-  };
-
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    const { error } = await supabase.auth.verifyOtp({
-      email: collegeEmail,
-      token: otp,
-      type: "email",
-    });
-
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
-    }
-
-    const domain = getCollegeFromEmail(collegeEmail);
-
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (user) {
-      await supabase
-        .from("profiles")
-        .update({
-          email: collegeEmail,
-          college_id: domain || collegeEmail.split("@")[1],
-          verification_status: "verified",
-        })
-        .eq("user_id", user.id);
+    if (!user) {
+      setError("You're not logged in. Please sign in again.");
+      setLoading(false);
+      return;
     }
 
-    setStep("done");
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({
+        email: collegeEmail,
+        college_id: domain,
+        verification_status: "verified",
+      })
+      .eq("user_id", user.id);
+
+    if (updateError) {
+      setError(updateError.message);
+      setLoading(false);
+      return;
+    }
+
+    setDone(true);
     setLoading(false);
   };
 
-  if (step === "done") {
+  if (done) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
         <div className="w-full max-w-md text-center space-y-4 bg-white rounded-2xl border border-slate-200 p-8">
@@ -154,95 +125,43 @@ export default function VerifyCollegePage() {
             </div>
           )}
 
-          {step === "email" && (
-            <form onSubmit={handleSendOtp} className="space-y-4">
-              <div className="space-y-1.5">
-                <label htmlFor="collegeEmail" className="text-sm font-semibold text-slate-700">
-                  College Email
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    id="collegeEmail"
-                    type="email"
-                    value={collegeEmail}
-                    onChange={(e) => setCollegeEmail(e.target.value)}
-                    placeholder="you@vit.edu.in"
-                    required
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-                  />
-                </div>
-                <p className="text-xs text-slate-500">
-                  We&apos;ll send a one-time code to verify you&apos;re a student.
-                </p>
+          <form onSubmit={handleVerify} className="space-y-4">
+            <div className="space-y-1.5">
+              <label htmlFor="collegeEmail" className="text-sm font-semibold text-slate-700">
+                College Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  id="collegeEmail"
+                  type="email"
+                  value={collegeEmail}
+                  onChange={(e) => setCollegeEmail(e.target.value)}
+                  placeholder="you@vpt.edu.in"
+                  required
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                />
               </div>
+              <p className="text-xs text-slate-500">
+                Must be from an approved college domain.
+              </p>
+            </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    Send Verification Code
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-            </form>
-          )}
-
-          {step === "otp" && (
-            <form onSubmit={handleVerifyOtp} className="space-y-4">
-              <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-sm text-emerald-700">
-                Code sent to <strong>{collegeEmail}</strong>. Check your inbox.
-              </div>
-
-              <div className="space-y-1.5">
-                <label htmlFor="otp" className="text-sm font-semibold text-slate-700">
-                  Verification Code
-                </label>
-                <div className="relative">
-                  <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                  <input
-                    id="otp"
-                    type="text"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    placeholder="Enter 6-digit code"
-                    required
-                    maxLength={6}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <>
-                    Verify & Continue
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setStep("email"); setOtp(""); setError(null); }}
-                className="w-full text-center text-sm text-slate-500 hover:text-slate-700"
-              >
-                Change email address
-              </button>
-            </form>
-          )}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <>
+                  Verify & Continue
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </form>
         </div>
 
         <p className="text-center text-sm text-slate-600">
