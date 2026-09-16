@@ -1,5 +1,5 @@
-# Vidyasys Database Schema
-# Run this in Supabase SQL Editor
+-- Vidyasys Database Schema
+-- Run this in Supabase SQL Editor
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -309,6 +309,51 @@ CREATE POLICY "Users can create reports" ON user_reports FOR INSERT WITH CHECK (
 
 -- Payouts: Users can view their own
 CREATE POLICY "Users can view own payouts" ON payouts FOR SELECT USING (auth.uid() = user_id);
+
+-- Auto-create profile on user signup
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+DECLARE
+  user_domain TEXT;
+  found_college_id TEXT;
+BEGIN
+  -- Extract domain from email
+  user_domain := split_part(NEW.email, '@', 2);
+
+  -- Try to find matching college by domain
+  SELECT id INTO found_college_id FROM colleges WHERE domain = user_domain AND is_active = true LIMIT 1;
+
+  INSERT INTO public.profiles (user_id, email, full_name, college_id, verification_status)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    COALESCE(NEW.raw_user_meta_data->>'full_name', ''),
+    COALESCE(found_college_id, user_domain),
+    CASE WHEN found_college_id IS NOT NULL THEN 'verified' ELSE 'pending' END
+  );
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- Auto-update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_listings_updated_at BEFORE UPDATE ON listings FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_inventory_updated_at BEFORE UPDATE ON inventory FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_orders_updated_at BEFORE UPDATE ON orders FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_tutor_profiles_updated_at BEFORE UPDATE ON tutor_profiles FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_bookings_updated_at BEFORE UPDATE ON bookings FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Seed data: Default college
 INSERT INTO colleges (name, short_name, city, domain, student_count, is_active) VALUES
