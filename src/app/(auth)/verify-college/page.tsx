@@ -52,19 +52,46 @@ export default function VerifyCollegePage() {
       return;
     }
 
-    const { error: updateError } = await supabase
+    const { data: existing } = await supabase
       .from("profiles")
-      .update({
-        email: collegeEmail,
-        college_id: domain,
-        verification_status: "verified",
-      })
-      .eq("user_id", user.id);
+      .select("id")
+      .eq("user_id", user.id)
+      .single();
 
-    if (updateError) {
-      setError(updateError.message);
-      setLoading(false);
-      return;
+    if (existing) {
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({
+          email: collegeEmail,
+          college_id: domain,
+          verification_status: "verified",
+        })
+        .eq("user_id", user.id);
+
+      if (updateError) {
+        setError(updateError.message);
+        setLoading(false);
+        return;
+      }
+    } else {
+      const { error: insertError } = await supabase
+        .from("profiles")
+        .insert({
+          user_id: user.id,
+          email: collegeEmail,
+          full_name: user.user_metadata?.full_name || user.user_metadata?.name || "",
+          college_id: domain,
+          branch: "",
+          semester: 1,
+          year_of_study: 1,
+          verification_status: "verified",
+        });
+
+      if (insertError) {
+        setError(insertError.message);
+        setLoading(false);
+        return;
+      }
     }
 
     setDone(true);
