@@ -120,7 +120,7 @@ export default function VerifyCollegePage() {
             Your college email <strong>{collegeEmail}</strong> has been verified. You now have full access to Vidyasys.
           </p>
           <button
-            onClick={() => window.location.href = "/app"}
+            onClick={() => window.location.href = "/onboarding"}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold transition"
           >
             Go to Dashboard

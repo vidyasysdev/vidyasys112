@@ -10,6 +10,7 @@ export const config = {
     "/app/:path*",
     "/admin/:path*",
     "/auth/:path*",
+    "/onboarding",
     "/verify-college",
     "/verify-email",
     "/login",

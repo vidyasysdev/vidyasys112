@@ -34,7 +34,8 @@ CREATE TABLE profiles (
   is_seller_verified BOOLEAN DEFAULT false,
   is_tutor_verified BOOLEAN DEFAULT false,
   created_at TIMESTAMPTZ DEFAULT now(),
-  updated_at TIMESTAMPTZ DEFAULT now()
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  onboarding_completed BOOLEAN DEFAULT false
 );
 
 -- Listings table

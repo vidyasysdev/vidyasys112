@@ -36,65 +36,60 @@ export async function updateSession(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  const publicRoutes = ["/", "/about", "/how-it-works", "/explore", "/tutors", "/contact", "/login", "/signup", "/verify-email", "/verify-college"];
-  const isPublicRoute = publicRoutes.some((route) => pathname === route);
-
+  const isOnboarding = pathname === "/onboarding";
+  const isVerifyCollege = pathname === "/verify-college";
   const isAdminRoute = pathname.startsWith("/admin");
   const isProtectedRoute = pathname.startsWith("/app");
-  const isVerifyCollege = pathname === "/verify-college";
+  const isAuthRoute = pathname === "/login" || pathname === "/signup";
 
-  if (isProtectedRoute && !user) {
+  if ((isProtectedRoute || isOnboarding) && !user) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
   }
 
-  if (isProtectedRoute && user && !isVerifyCollege) {
-    const email = user.email || "";
-    const domain = email.split("@")[1] || "";
-    const isApprovedDomain = APPROVED_DOMAINS.includes(domain);
-
+  if (user && (isProtectedRoute || isOnboarding) && !isVerifyCollege && !isOnboarding) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("verification_status")
+      .select("verification_status, onboarding_completed")
       .eq("user_id", user.id)
       .single();
 
     if (!profile || profile.verification_status !== "verified") {
-      if (!isVerifyCollege) {
-        const url = request.nextUrl.clone();
-        url.pathname = "/verify-college";
-        return NextResponse.redirect(url);
-      }
+      const url = request.nextUrl.clone();
+      url.pathname = "/verify-college";
+      return NextResponse.redirect(url);
+    }
+
+    if (profile && !profile.onboarding_completed) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/onboarding";
+      return NextResponse.redirect(url);
     }
   }
 
-  if ((pathname === "/login" || pathname === "/signup") && user) {
-    const email = user.email || "";
-    const domain = email.split("@")[1] || "";
-    const isApprovedDomain = APPROVED_DOMAINS.includes(domain);
+  if (isAuthRoute && user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("verification_status, onboarding_completed")
+      .eq("user_id", user.id)
+      .single();
 
-    if (isApprovedDomain) {
+    if (!profile || profile.verification_status !== "verified") {
       const url = request.nextUrl.clone();
-      url.pathname = "/app";
+      url.pathname = "/verify-college";
       return NextResponse.redirect(url);
-    } else {
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("verification_status")
-        .eq("user_id", user.id)
-        .single();
-
-      if (profile && profile.verification_status === "verified") {
-        const url = request.nextUrl.clone();
-        url.pathname = "/app";
-        return NextResponse.redirect(url);
-      } else {
-        const url = request.nextUrl.clone();
-        url.pathname = "/verify-college";
-        return NextResponse.redirect(url);
-      }
     }
+
+    if (profile && !profile.onboarding_completed) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/onboarding";
+      return NextResponse.redirect(url);
+    }
+
+    const url = request.nextUrl.clone();
+    url.pathname = "/app";
+    return NextResponse.redirect(url);
   }
 
   if (isAdminRoute && !user) {
