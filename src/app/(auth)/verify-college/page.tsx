@@ -215,9 +215,8 @@ export default function VerifyCollegePage() {
                     type="text"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
-                    placeholder="Enter 6-digit code"
+                    placeholder="Enter the code from your email"
                     required
-                    maxLength={6}
                     className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                   />
                 </div>
