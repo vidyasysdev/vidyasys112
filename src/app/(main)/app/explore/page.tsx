@@ -69,11 +69,13 @@ export default async function ExplorePage() {
               className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition group"
             >
               {listing.listing_images?.[0] && (
-                <div className="aspect-video bg-slate-100 overflow-hidden">
-                  <img
+                <div className="relative aspect-video bg-slate-100 overflow-hidden">
+                  <Image
                     src={listing.listing_images[0].image_url}
                     alt={listing.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               )}

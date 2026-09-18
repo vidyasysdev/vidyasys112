@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 import { Building2, CheckCircle, XCircle } from "lucide-react";
 
 export default async function AdminListingsPage() {
@@ -8,6 +9,22 @@ export default async function AdminListingsPage() {
     .from("listings")
     .select("*, profiles!seller_id(full_name, email)")
     .order("created_at", { ascending: false });
+
+  async function approveListing(formData: FormData) {
+    "use server";
+    const id = formData.get("id") as string;
+    const supabase = await createClient();
+    await supabase.from("listings").update({ status: "approved" }).eq("id", id);
+    revalidatePath("/admin/listings");
+  }
+
+  async function rejectListing(formData: FormData) {
+    "use server";
+    const id = formData.get("id") as string;
+    const supabase = await createClient();
+    await supabase.from("listings").update({ status: "rejected" }).eq("id", id);
+    revalidatePath("/admin/listings");
+  }
 
   const statusColors: Record<string, string> = {
     pending: "bg-amber-50 text-amber-700",
@@ -55,12 +72,18 @@ export default async function AdminListingsPage() {
                   <td className="px-4 py-3">
                     {listing.status === "pending" && (
                       <div className="flex items-center gap-2">
-                        <button className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition">
-                          <CheckCircle className="w-4 h-4" />
-                        </button>
-                        <button className="p-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
-                          <XCircle className="w-4 h-4" />
-                        </button>
+                        <form action={approveListing}>
+                          <input type="hidden" name="id" value={listing.id} />
+                          <button type="submit" title="Approve" className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition">
+                            <CheckCircle className="w-4 h-4" />
+                          </button>
+                        </form>
+                        <form action={rejectListing}>
+                          <input type="hidden" name="id" value={listing.id} />
+                          <button type="submit" title="Reject" className="p-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
+                            <XCircle className="w-4 h-4" />
+                          </button>
+                        </form>
                       </div>
                     )}
                   </td>

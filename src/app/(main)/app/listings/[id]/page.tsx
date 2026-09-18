@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Star, Clock, ShieldCheck, Tag } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 
@@ -34,11 +35,14 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
       <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
         {listing.listing_images?.[0] && (
-          <div className="aspect-video bg-slate-100">
-            <img
+          <div className="relative aspect-video bg-slate-100">
+            <Image
               src={listing.listing_images[0].image_url}
               alt={listing.title}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 896px"
+              className="object-cover"
+              priority
             />
           </div>
         )}

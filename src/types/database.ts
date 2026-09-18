@@ -40,6 +40,8 @@ export interface Database {
           verification_status: "pending" | "verified" | "rejected";
           is_seller_verified: boolean;
           is_tutor_verified: boolean;
+          is_admin: boolean;
+          onboarding_completed: boolean;
           created_at: string;
           updated_at: string;
         };

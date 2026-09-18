@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 import { formatDateTime } from "@/lib/utils";
 
 export default async function AdminVerificationsPage() {
@@ -15,6 +16,38 @@ export default async function AdminVerificationsPage() {
     .select("*, profiles!user_id(full_name, email, college_id)")
     .eq("verification_status", "pending")
     .order("created_at", { ascending: false });
+
+  async function approveProfile(formData: FormData) {
+    "use server";
+    const id = formData.get("id") as string;
+    const supabase = await createClient();
+    await supabase.from("profiles").update({ verification_status: "verified" }).eq("id", id);
+    revalidatePath("/admin/verifications");
+  }
+
+  async function rejectProfile(formData: FormData) {
+    "use server";
+    const id = formData.get("id") as string;
+    const supabase = await createClient();
+    await supabase.from("profiles").update({ verification_status: "rejected" }).eq("id", id);
+    revalidatePath("/admin/verifications");
+  }
+
+  async function approveTutor(formData: FormData) {
+    "use server";
+    const id = formData.get("id") as string;
+    const supabase = await createClient();
+    await supabase.from("tutor_profiles").update({ verification_status: "verified" }).eq("id", id);
+    revalidatePath("/admin/verifications");
+  }
+
+  async function rejectTutor(formData: FormData) {
+    "use server";
+    const id = formData.get("id") as string;
+    const supabase = await createClient();
+    await supabase.from("tutor_profiles").update({ verification_status: "rejected" }).eq("id", id);
+    revalidatePath("/admin/verifications");
+  }
 
   return (
     <div className="space-y-8">
@@ -46,12 +79,18 @@ export default async function AdminVerificationsPage() {
                       <td className="px-4 py-3 text-xs text-slate-500">{formatDateTime(profile.created_at)}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <button className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
-                            Approve
-                          </button>
-                          <button className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
-                            Reject
-                          </button>
+                          <form action={approveProfile}>
+                            <input type="hidden" name="id" value={profile.id} />
+                            <button type="submit" className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
+                              Approve
+                            </button>
+                          </form>
+                          <form action={rejectProfile}>
+                            <input type="hidden" name="id" value={profile.id} />
+                            <button type="submit" className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
+                              Reject
+                            </button>
+                          </form>
                         </div>
                       </td>
                     </tr>
@@ -91,12 +130,18 @@ export default async function AdminVerificationsPage() {
                       <td className="px-4 py-3 text-xs text-slate-600">{tutor.subjects?.join(", ")}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <button className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
-                            Approve
-                          </button>
-                          <button className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
-                            Reject
-                          </button>
+                          <form action={approveTutor}>
+                            <input type="hidden" name="id" value={tutor.id} />
+                            <button type="submit" className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
+                              Approve
+                            </button>
+                          </form>
+                          <form action={rejectTutor}>
+                            <input type="hidden" name="id" value={tutor.id} />
+                            <button type="submit" className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
+                              Reject
+                            </button>
+                          </form>
                         </div>
                       </td>
                     </tr>

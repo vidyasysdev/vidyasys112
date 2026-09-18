@@ -33,6 +33,16 @@ export default async function AdminLayout({
     redirect("/login");
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("user_id", user.id)
+    .single();
+
+  if (!profile?.is_admin) {
+    redirect("/app");
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="sticky top-0 z-50 bg-brand-950 text-white">

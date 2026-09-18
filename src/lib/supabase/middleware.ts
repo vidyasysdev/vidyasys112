@@ -48,7 +48,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user && (isProtectedRoute || isOnboarding) && !isVerifyCollege && !isOnboarding) {
+  if (user && (isProtectedRoute || isOnboarding) && !isVerifyCollege) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("verification_status, onboarding_completed")
@@ -61,7 +61,7 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    if (profile && !profile.onboarding_completed) {
+    if (!profile.onboarding_completed && !isOnboarding) {
       const url = request.nextUrl.clone();
       url.pathname = "/onboarding";
       return NextResponse.redirect(url);
