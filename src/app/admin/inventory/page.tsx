@@ -29,7 +29,7 @@ export default async function AdminInventoryPage() {
       {inventory && inventory.length > 0 ? (
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[680px]">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
                   <th className="text-left px-4 py-3 font-semibold text-slate-700">Item Code</th>

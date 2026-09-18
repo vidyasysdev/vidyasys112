@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
-  GraduationCap,
   Home,
   Search,
-  BookOpen,
   ShoppingCart,
   Calendar,
   MessageSquare,
@@ -53,11 +52,13 @@ export function AppSidebar({ user }: AppSidebarProps) {
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-white border-r border-slate-200 z-40">
         <div className="flex items-center gap-2.5 px-6 h-16 border-b border-slate-200">
-          <GraduationCap className="w-8 h-8 text-brand-600" />
-          <div className="flex items-baseline">
-            <span className="text-xl font-black tracking-tight text-brand-950">Vidya</span>
-            <span className="text-xl font-black tracking-tight text-brand-600">sys</span>
-          </div>
+          <Image
+            src="/images/logo.png"
+            alt="Vidyasys"
+            width={40}
+            height={40}
+            className="h-8 w-auto"
+          />
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
@@ -92,17 +93,17 @@ export function AppSidebar({ user }: AppSidebarProps) {
         </div>
       </aside>
 
-      {/* Mobile bottom nav */}
+      {/* Mobile bottom nav — all destinations, horizontally scrollable */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 px-2 py-1 safe-area-inset-bottom">
-        <div className="flex items-center justify-around">
-          {navItems.slice(0, 5).map((item) => {
+        <div className="flex items-center gap-1 overflow-x-auto">
+          {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-lg text-[10px] font-semibold transition min-w-[52px]",
+                  "flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold transition min-w-[60px] shrink-0",
                   isActive
                     ? "text-brand-600"
                     : "text-slate-500"

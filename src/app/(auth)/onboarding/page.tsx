@@ -203,7 +203,7 @@ export default function OnboardingPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label htmlFor="branch" className="text-sm font-semibold text-slate-700">
                 Branch <span className="text-red-500">*</span>

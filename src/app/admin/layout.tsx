@@ -82,7 +82,22 @@ export default async function AdminLayout({
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 min-h-[calc(100vh-56px)]">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 min-h-[calc(100vh-56px)] min-w-0">
+          {/* Mobile admin nav */}
+          <nav className="lg:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 pb-3 mb-4 border-b border-slate-200 overflow-x-auto">
+            <div className="flex items-center gap-2 w-max">
+              {adminNavItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 bg-white border border-slate-200 whitespace-nowrap hover:border-brand-300 transition"
+                >
+                  <item.icon className="w-3.5 h-3.5 text-slate-400" />
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
           {children}
         </main>
       </div>
