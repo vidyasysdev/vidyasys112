@@ -1,6 +1,0 @@
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=https://kddgucwjbufauwyccdrs.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtkZGd1Y3dqYnVmYXV3eWNjZHJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk1NjU1MDcsImV4cCI6MjEwNTE0MTUwN30.d6UQkCnDdVa4aZXc5I4Wp4bhzbtgVhYX0HIFxa7C5fA
-
-# App
-NEXT_PUBLIC_APP_URL=https://vidyasys-omega.vercel.app
