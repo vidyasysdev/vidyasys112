@@ -1,5 +1,4 @@
-import { PublicHeader } from "@/components/layout/PublicHeader";
-import { Footer } from "@/components/layout/Footer";
+import { PublicShell } from "@/components/layout/PublicShell";
 import { Search, ShieldCheck, Package, CreditCard, CheckCircle } from "lucide-react";
 
 export const dynamic = "force-static";
@@ -11,15 +10,13 @@ export const metadata = {
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <PublicHeader />
-      <main className="flex-1">
+    <PublicShell>
         <section className="max-w-4xl mx-auto px-4 sm:px-6 py-20 space-y-16">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl sm:text-5xl font-black text-brand-950 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
               How Vidyasys Works
             </h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <p className="text-lg text-ink-muted max-w-2xl mx-auto">
               A simple, trustworthy process designed for college students.
             </p>
           </div>
@@ -72,15 +69,13 @@ export default function HowItWorksPage() {
                       Step {item.step}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{item.description}</p>
+                  <h3 className="text-xl font-bold text-ink">{item.title}</h3>
+                  <p className="text-ink-muted leading-relaxed">{item.description}</p>
                 </div>
               </div>
             ))}
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+      </PublicShell>
   );
 }

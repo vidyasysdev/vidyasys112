@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { CommandPalette } from "@/components/search/CommandPalette";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -9,33 +11,32 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Vidyasys — Learn, Share, Build & Grow",
+    default: "Vidyasys — Your Polytechnic. Your Resources. Your Ecosystem.",
     template: "%s | Vidyasys",
   },
   description:
-    "One platform where students Learn, Share, Build & Grow. Buy/rent academic notes, projects, hardware kits, and book peer tutors at your college.",
+    "Vidyasys brings academic resources, projects, peer learning and student services together in one platform. Launching with Vidyalankar Polytechnic.",
   keywords: [
-    "student marketplace",
-    "academic notes",
-    "peer tutoring",
-    "college projects",
-    "campus marketplace",
     "student ecosystem",
+    "polytechnic notes",
+    "peer tutoring",
+    "academic projects",
+    "campus marketplace",
+    "vidyalankar polytechnic",
   ],
   openGraph: {
-    title: "Vidyasys — Learn, Share, Build & Grow",
+    title: "Vidyasys — Your Polytechnic. Your Resources. Your Ecosystem.",
     description:
-      "One platform where students Learn, Share, Build & Grow. College-focused student ecosystem and marketplace.",
-    url: "https://vidyasys.vercel.app",
+      "Academic resources, projects, peer learning and student services in one platform.",
+    url: "https://vidyasys.in",
     siteName: "Vidyasys",
     locale: "en_IN",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vidyasys — Learn, Share, Build & Grow",
-    description:
-      "One platform where students Learn, Share, Build & Grow.",
+    title: "Vidyasys — Your Polytechnic. Your Resources. Your Ecosystem.",
+    description: "Academic resources, projects, peer learning and student services in one platform.",
   },
   robots: {
     index: true,
@@ -43,15 +44,23 @@ export const metadata: Metadata = {
   },
 };
 
+const themeInit = `try{var t=localStorage.getItem("vidyasys-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}`;
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased">
-        {children}
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+      </head>
+      <body className="min-h-screen bg-canvas text-ink font-sans antialiased">
+        <ThemeProvider>
+          {children}
+          <CommandPalette />
+        </ThemeProvider>
       </body>
     </html>
   );

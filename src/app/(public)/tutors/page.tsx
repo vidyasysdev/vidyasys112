@@ -1,5 +1,4 @@
-import { PublicHeader } from "@/components/layout/PublicHeader";
-import { Footer } from "@/components/layout/Footer";
+import { PublicShell } from "@/components/layout/PublicShell";
 
 export const dynamic = "force-static";
 
@@ -10,21 +9,19 @@ export const metadata = {
 
 export default function TutorsPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <PublicHeader />
-      <main className="flex-1">
+    <PublicShell>
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-20">
           <div className="text-center space-y-4 mb-12">
-            <h1 className="text-4xl sm:text-5xl font-black text-brand-950 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl font-black text-ink tracking-tight">
               Peer Tutoring
             </h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <p className="text-lg text-ink-muted max-w-2xl mx-auto">
               Connect with verified senior students who excelled in your subjects.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
-            <p className="text-slate-500 text-sm">
+          <div className="glass rounded-2xl border border-hairline p-12 text-center">
+            <p className="text-ink-muted text-sm">
               Sign in to discover tutors at your college and book sessions.
             </p>
             <a
@@ -35,8 +32,6 @@ export default function TutorsPage() {
             </a>
           </div>
         </section>
-      </main>
-      <Footer />
-    </div>
+      </PublicShell>
   );
 }

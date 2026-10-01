@@ -1,5 +1,29 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --vid-bg: #f6f8fc;
+  --vid-surface: #ffffff;
+  --vid-surface-2: #eef2f9;
+  --vid-border: rgb(15 30 70 / 0.1);
+  --vid-text: #0f1e46;
+  --vid-text-muted: #5b6b8c;
+  --vid-accent: #2b5ce6;
+  --vid-accent-strong: #1d4ed8;
+}
+
+.dark {
+  --vid-bg: #0a1229;
+  --vid-surface: #101b3f;
+  --vid-surface-2: #17234c;
+  --vid-border: rgb(148 174 255 / 0.14);
+  --vid-text: #e8edfa;
+  --vid-text-muted: #96a6cc;
+  --vid-accent: #4f7dff;
+  --vid-accent-strong: #3b66f0;
+}
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --color-brand-50: #eff6ff;
@@ -13,4 +37,31 @@
   --color-brand-800: #1e40af;
   --color-brand-900: #1e3a8a;
   --color-brand-950: #0a2356;
+}
+
+@theme inline {
+  --color-canvas: var(--vid-bg);
+  --color-panel: var(--vid-surface);
+  --color-panel-2: var(--vid-surface-2);
+  --color-hairline: var(--vid-border);
+  --color-ink: var(--vid-text);
+  --color-ink-muted: var(--vid-text-muted);
+  --color-royal: var(--vid-accent);
+  --color-royal-strong: var(--vid-accent-strong);
+}
+
+.glass {
+  background: rgb(255 255 255 / 0.72);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgb(15 30 70 / 0.08);
+}
+
+.dark .glass {
+  background: rgb(16 27 63 / 0.66);
+  border-color: rgb(148 174 255 / 0.14);
+}
+
+::selection {
+  background: rgb(43 92 230 / 0.25);
 }
