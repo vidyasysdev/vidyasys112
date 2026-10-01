@@ -31,18 +31,18 @@ export default async function AdminOverviewPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-black text-slate-900 tracking-tight">Admin Dashboard</h1>
+      <h1 className="text-2xl font-black text-ink tracking-tight">Admin Dashboard</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-white rounded-xl border border-slate-200 p-5">
+          <div key={stat.label} className="bg-panel rounded-xl border border-hairline p-5">
             <div className="flex items-center gap-3 mb-3">
               <div className={`w-10 h-10 rounded-lg ${stat.color} flex items-center justify-center`}>
                 <stat.icon className="w-5 h-5" />
               </div>
-              <span className="text-sm font-semibold text-slate-600">{stat.label}</span>
+              <span className="text-sm font-semibold text-ink-muted">{stat.label}</span>
             </div>
-            <div className="text-3xl font-black text-slate-900">{stat.value}</div>
+            <div className="text-3xl font-black text-ink">{stat.value}</div>
           </div>
         ))}
       </div>

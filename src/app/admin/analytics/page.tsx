@@ -28,7 +28,7 @@ export default async function AdminAnalyticsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-black text-slate-900 tracking-tight">Analytics</h1>
+      <h1 className="text-2xl font-black text-ink tracking-tight">Analytics</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
@@ -41,17 +41,17 @@ export default async function AdminAnalyticsPage() {
           { label: "Total Bookings", value: totalBookings || 0 },
           { label: "Conversion Rate", value: `${conversionRate}%` },
         ].map((stat) => (
-          <div key={stat.label} className="bg-white rounded-xl border border-slate-200 p-5">
-            <div className="text-xs text-slate-500 font-medium mb-1">{stat.label}</div>
-            <div className="text-2xl font-black text-slate-900">{stat.value}</div>
+          <div key={stat.label} className="bg-panel rounded-xl border border-hairline p-5">
+            <div className="text-xs text-ink-muted font-medium mb-1">{stat.label}</div>
+            <div className="text-2xl font-black text-ink">{stat.value}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 p-8 text-center">
+      <div className="bg-panel rounded-xl border border-hairline p-8 text-center">
         <BarChart3 className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-        <h3 className="text-lg font-bold text-slate-900 mb-2">Charts Coming Soon</h3>
-        <p className="text-sm text-slate-500">Detailed analytics charts and trends will be available here.</p>
+        <h3 className="text-lg font-bold text-ink mb-2">Charts Coming Soon</h3>
+        <p className="text-sm text-ink-muted">Detailed analytics charts and trends will be available here.</p>
       </div>
     </div>
   );

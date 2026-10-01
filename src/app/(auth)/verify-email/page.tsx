@@ -8,13 +8,13 @@ export const metadata = {
 
 export default function VerifyEmailPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-md text-center space-y-4 bg-white rounded-2xl border border-slate-200 p-8">
+    <div className="min-h-screen flex items-center justify-center bg-panel-2 px-4">
+      <div className="w-full max-w-md text-center space-y-4 bg-panel rounded-2xl border border-hairline p-8">
         <div className="w-16 h-16 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center mx-auto">
           <Mail className="w-8 h-8" />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900">Verify your email</h1>
-        <p className="text-sm text-slate-600">
+        <h1 className="text-2xl font-bold text-ink">Verify your email</h1>
+        <p className="text-sm text-ink-muted">
           We&apos;ve sent a verification link to your email address. Please check your inbox and click the link to verify your account.
         </p>
         <div className="pt-4 space-y-2">
@@ -24,7 +24,7 @@ export default function VerifyEmailPage() {
           >
             Go to Login
           </Link>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-ink-muted">
             Didn&apos;t receive the email? Check your spam folder.
           </p>
         </div>

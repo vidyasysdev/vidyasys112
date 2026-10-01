@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { GraduationCap, Users, Building2, Shield, Package, ShoppingCart, Calendar, Wrench, CreditCard, AlertTriangle, BarChart3, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeSwitcher } from "@/components/theme/ThemeSwitcher";
 
 export const metadata = {
   title: "Admin Dashboard",
@@ -44,7 +45,7 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-panel-2">
       <header className="sticky top-0 z-50 bg-brand-950 text-white">
         <div className="max-w-full mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -58,23 +59,28 @@ export default async function AdminLayout({
               <span className="font-bold text-sm">Vidyasys Admin</span>
             </div>
           </div>
-          <div className="text-xs text-blue-200">
-            {user.email}
+          <div className="flex items-center gap-3">
+            <div className="text-xs text-blue-200 hidden sm:block">
+              {user.email}
+            </div>
+            <div className="p-1.5 rounded-lg hover:bg-white/10 transition [&_button]:text-blue-200 [&_button:hover]:text-white">
+              <ThemeSwitcher />
+            </div>
           </div>
         </div>
       </header>
 
       <div className="flex">
         {/* Admin Sidebar */}
-        <aside className="hidden lg:block w-56 bg-white border-r border-slate-200 min-h-[calc(100vh-56px)] sticky top-14">
+        <aside className="hidden lg:block w-56 bg-panel border-r border-hairline min-h-[calc(100vh-56px)] sticky top-14">
           <nav className="p-3 space-y-1">
             {adminNavItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition"
+                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-semibold text-ink-muted hover:bg-panel-2 hover:text-ink transition"
               >
-                <item.icon className="w-4 h-4 text-slate-400" />
+                <item.icon className="w-4 h-4 text-ink-muted" />
                 {item.label}
               </Link>
             ))}
@@ -84,15 +90,15 @@ export default async function AdminLayout({
         {/* Main Content */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8 min-h-[calc(100vh-56px)] min-w-0">
           {/* Mobile admin nav */}
-          <nav className="lg:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 pb-3 mb-4 border-b border-slate-200 overflow-x-auto">
+          <nav className="lg:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 pb-3 mb-4 border-b border-hairline overflow-x-auto">
             <div className="flex items-center gap-2 w-max">
               {adminNavItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 bg-white border border-slate-200 whitespace-nowrap hover:border-brand-300 transition"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-ink-muted bg-panel border border-hairline whitespace-nowrap hover:border-brand-300 transition"
                 >
-                  <item.icon className="w-3.5 h-3.5 text-slate-400" />
+                  <item.icon className="w-3.5 h-3.5 text-ink-muted" />
                   {item.label}
                 </Link>
               ))}

@@ -138,7 +138,7 @@ export default function OnboardingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-panel-2">
         <Loader2 className="w-8 h-8 animate-spin text-brand-600" />
       </div>
     );
@@ -146,13 +146,13 @@ export default function OnboardingPage() {
 
   if (done) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-        <div className="w-full max-w-md text-center space-y-4 bg-white rounded-2xl border border-slate-200 p-8">
+      <div className="min-h-screen flex items-center justify-center bg-panel-2 px-4">
+        <div className="w-full max-w-md text-center space-y-4 bg-panel rounded-2xl border border-hairline p-8">
           <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">You&apos;re all set!</h1>
-          <p className="text-sm text-slate-600">
+          <h1 className="text-2xl font-bold text-ink">You&apos;re all set!</h1>
+          <p className="text-sm text-ink-muted">
             Your profile is complete. Welcome to Vidyasys!
           </p>
           <button
@@ -168,17 +168,17 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-8">
+    <div className="min-h-screen flex items-center justify-center bg-panel-2 px-4 py-8">
       <div className="w-full max-w-lg space-y-8">
         <div className="text-center space-y-2">
           <Image src="/images/logo.png" alt="Vidyasys" width={48} height={48} className="h-10 w-auto mx-auto" />
-          <h1 className="text-2xl font-bold text-slate-900">Complete your profile</h1>
-          <p className="text-sm text-slate-600">
+          <h1 className="text-2xl font-bold text-ink">Complete your profile</h1>
+          <p className="text-sm text-ink-muted">
             Tell us about yourself so others can find you on campus
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-5">
+        <form onSubmit={handleSubmit} className="bg-panel rounded-2xl border border-hairline p-6 shadow-xs space-y-5">
           {error && (
             <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
               {error}
@@ -186,11 +186,11 @@ export default function OnboardingPage() {
           )}
 
           <div className="space-y-1.5">
-            <label htmlFor="fullName" className="text-sm font-semibold text-slate-700">
+            <label htmlFor="fullName" className="text-sm font-semibold text-ink">
               Full Name <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
               <input
                 id="fullName"
                 type="text"
@@ -198,24 +198,24 @@ export default function OnboardingPage() {
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Aryan Sonsurkar"
                 required
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="branch" className="text-sm font-semibold text-slate-700">
+              <label htmlFor="branch" className="text-sm font-semibold text-ink">
                 Branch <span className="text-red-500">*</span>
               </label>
               <div className="relative">
-                <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                 <select
                   id="branch"
                   value={branch}
                   onChange={(e) => setBranch(e.target.value)}
                   required
-                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-white"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-panel"
                 >
                   <option value="">Select</option>
                   {BRANCHES.map((b) => (
@@ -226,14 +226,14 @@ export default function OnboardingPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="semester" className="text-sm font-semibold text-slate-700">
+              <label htmlFor="semester" className="text-sm font-semibold text-ink">
                 Semester
               </label>
               <select
                 id="semester"
                 value={semester}
                 onChange={(e) => setSemester(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-white"
+                className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-panel"
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
                   <option key={s} value={s}>Sem {s}</option>
@@ -243,14 +243,14 @@ export default function OnboardingPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="yearOfStudy" className="text-sm font-semibold text-slate-700">
+            <label htmlFor="yearOfStudy" className="text-sm font-semibold text-ink">
               Year of Study
             </label>
             <select
               id="yearOfStudy"
               value={yearOfStudy}
               onChange={(e) => setYearOfStudy(Number(e.target.value))}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-white"
+              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-panel"
             >
               {[1, 2, 3, 4].map((y) => (
                 <option key={y} value={y}>Year {y}</option>
@@ -259,25 +259,25 @@ export default function OnboardingPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="phone" className="text-sm font-semibold text-slate-700">
-              Phone <span className="text-slate-400 font-normal">(optional)</span>
+            <label htmlFor="phone" className="text-sm font-semibold text-ink">
+              Phone <span className="text-ink-muted font-normal">(optional)</span>
             </label>
             <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
               <input
                 id="phone"
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="9876543210"
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="bio" className="text-sm font-semibold text-slate-700">
-              Bio <span className="text-slate-400 font-normal">(optional)</span>
+            <label htmlFor="bio" className="text-sm font-semibold text-ink">
+              Bio <span className="text-ink-muted font-normal">(optional)</span>
             </label>
             <textarea
               id="bio"
@@ -285,7 +285,7 @@ export default function OnboardingPage() {
               onChange={(e) => setBio(e.target.value)}
               placeholder="Tell others about yourself..."
               rows={3}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none"
+              className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent resize-none"
             />
           </div>
 

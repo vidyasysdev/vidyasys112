@@ -3,6 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  color-scheme: light;
   --vid-bg: #f6f8fc;
   --vid-surface: #ffffff;
   --vid-surface-2: #eef2f9;
@@ -14,6 +15,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --vid-bg: #0a1229;
   --vid-surface: #101b3f;
   --vid-surface-2: #17234c;

@@ -20,8 +20,8 @@ export default async function NotificationsPage() {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div>
-        <h1 className="text-2xl font-black text-brand-950 tracking-tight">Notifications</h1>
-        <p className="text-sm text-slate-600 mt-1">Stay updated on orders, bookings, and more</p>
+        <h1 className="text-2xl font-black text-ink tracking-tight">Notifications</h1>
+        <p className="text-sm text-ink-muted mt-1">Stay updated on orders, bookings, and more</p>
       </div>
 
       {notifications && notifications.length > 0 ? (
@@ -29,7 +29,7 @@ export default async function NotificationsPage() {
           {notifications.map((notif) => (
             <div
               key={notif.id}
-              className={`bg-white rounded-xl border border-slate-200 p-4 flex items-start gap-3 ${
+              className={`bg-panel rounded-xl border border-hairline p-4 flex items-start gap-3 ${
                 !notif.is_read ? "border-l-4 border-l-brand-500" : ""
               }`}
             >
@@ -37,9 +37,9 @@ export default async function NotificationsPage() {
                 <Bell className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="text-sm font-bold text-slate-900">{notif.title}</h4>
-                <p className="text-xs text-slate-600 mt-0.5">{notif.message}</p>
-                <span className="text-[10px] text-slate-400 mt-1 block">
+                <h4 className="text-sm font-bold text-ink">{notif.title}</h4>
+                <p className="text-xs text-ink-muted mt-0.5">{notif.message}</p>
+                <span className="text-[10px] text-ink-muted mt-1 block">
                   {formatDateTime(notif.created_at)}
                 </span>
               </div>
@@ -47,10 +47,10 @@ export default async function NotificationsPage() {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
+        <div className="bg-panel rounded-2xl border border-hairline p-12 text-center">
           <Bell className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-          <h3 className="text-lg font-bold text-slate-900 mb-2">No notifications</h3>
-          <p className="text-sm text-slate-500">You&apos;re all caught up!</p>
+          <h3 className="text-lg font-bold text-ink mb-2">No notifications</h3>
+          <p className="text-sm text-ink-muted">You&apos;re all caught up!</p>
         </div>
       )}
     </div>

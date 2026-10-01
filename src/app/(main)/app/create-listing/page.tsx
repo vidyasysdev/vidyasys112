@@ -96,53 +96,53 @@ export default function CreateListingPage() {
     <div className="max-w-2xl mx-auto space-y-6">
       <Link
         href="/app/explore"
-        className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-brand-600 transition"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-ink-muted hover:text-brand-600 transition"
       >
         <ArrowLeft className="w-4 h-4" />
         Back
       </Link>
 
       <div>
-        <h1 className="text-2xl font-black text-brand-950 tracking-tight">Create Listing</h1>
-        <p className="text-sm text-slate-600 mt-1">List your notes, projects, or essentials on the marketplace</p>
+        <h1 className="text-2xl font-black text-ink tracking-tight">Create Listing</h1>
+        <p className="text-sm text-ink-muted mt-1">List your notes, projects, or essentials on the marketplace</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-slate-200 p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="bg-panel rounded-2xl border border-hairline p-6 space-y-5">
         {error && (
           <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">{error}</div>
         )}
 
         <div className="space-y-1.5">
-          <label className="text-sm font-semibold text-slate-700">Title</label>
+          <label className="text-sm font-semibold text-ink">Title</label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g., Operating Systems Exam Notes"
             required
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-sm font-semibold text-slate-700">Description</label>
+          <label className="text-sm font-semibold text-ink">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe your listing in detail..."
             required
             rows={4}
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+            className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Category</label>
+            <label className="text-sm font-semibold text-ink">Category</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
               {CATEGORIES.map((cat) => (
                 <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -151,11 +151,11 @@ export default function CreateListingPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Listing Type</label>
+            <label className="text-sm font-semibold text-ink">Listing Type</label>
             <select
               value={listingType}
               onChange={(e) => setListingType(e.target.value as "sell" | "rent" | "both")}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
               <option value="sell">Sell</option>
               <option value="rent">Rent</option>
@@ -165,24 +165,24 @@ export default function CreateListingPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-sm font-semibold text-slate-700">Subject</label>
+          <label className="text-sm font-semibold text-ink">Subject</label>
           <input
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
             placeholder="e.g., Operating Systems"
             required
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Semester</label>
+            <label className="text-sm font-semibold text-ink">Semester</label>
             <select
               value={semester}
               onChange={(e) => setSemester(Number(e.target.value))}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
               {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
                 <option key={s} value={s}>Sem {s}</option>
@@ -191,49 +191,49 @@ export default function CreateListingPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Price (₹)</label>
+            <label className="text-sm font-semibold text-ink">Price (₹)</label>
             <input
               type="number"
               value={price}
               onChange={(e) => setPrice(Number(e.target.value))}
               min={0}
               required
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Quantity</label>
+            <label className="text-sm font-semibold text-ink">Quantity</label>
             <input
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
               min={1}
               required
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
         </div>
 
         {(listingType === "rent" || listingType === "both") && (
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Rent Price (₹)</label>
+            <label className="text-sm font-semibold text-ink">Rent Price (₹)</label>
             <input
               type="number"
               value={rentPrice || ""}
               onChange={(e) => setRentPrice(Number(e.target.value))}
               min={0}
-              className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
         )}
 
         <div className="space-y-1.5">
-          <label className="text-sm font-semibold text-slate-700">Branch</label>
+          <label className="text-sm font-semibold text-ink">Branch</label>
           <select
             value={branch}
             onChange={(e) => setBranch(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           >
             {BRANCHES.map((b) => (
               <option key={b} value={b}>{b}</option>
@@ -247,9 +247,9 @@ export default function CreateListingPage() {
             id="isDigital"
             checked={isDigital}
             onChange={(e) => setIsDigital(e.target.checked)}
-            className="w-4 h-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
+            className="w-4 h-4 rounded bg-panel border-slate-300 text-brand-600 focus:ring-brand-500"
           />
-          <label htmlFor="isDigital" className="text-sm font-semibold text-slate-700">
+          <label htmlFor="isDigital" className="text-sm font-semibold text-ink">
             This is a digital product (instant download)
           </label>
         </div>

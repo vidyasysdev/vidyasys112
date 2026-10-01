@@ -30,40 +30,40 @@ export default async function AdminListingsPage() {
     pending: "bg-amber-50 text-amber-700",
     approved: "bg-emerald-50 text-emerald-700",
     rejected: "bg-red-50 text-red-700",
-    sold_out: "bg-slate-100 text-slate-600",
-    archived: "bg-slate-100 text-slate-600",
+    sold_out: "bg-panel-2 text-ink-muted",
+    archived: "bg-panel-2 text-ink-muted",
   };
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-black text-slate-900 tracking-tight">Listings Management</h1>
+      <h1 className="text-2xl font-black text-ink tracking-tight">Listings Management</h1>
 
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div className="bg-panel rounded-xl border border-hairline overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm min-w-[720px]">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="text-left px-4 py-3 font-semibold text-slate-700">Listing</th>
-                <th className="text-left px-4 py-3 font-semibold text-slate-700">Seller</th>
-                <th className="text-left px-4 py-3 font-semibold text-slate-700">Category</th>
-                <th className="text-left px-4 py-3 font-semibold text-slate-700">Price</th>
-                <th className="text-left px-4 py-3 font-semibold text-slate-700">Status</th>
-                <th className="text-left px-4 py-3 font-semibold text-slate-700">Actions</th>
+              <tr className="bg-panel-2 border-b border-hairline">
+                <th className="text-left px-4 py-3 font-semibold text-ink">Listing</th>
+                <th className="text-left px-4 py-3 font-semibold text-ink">Seller</th>
+                <th className="text-left px-4 py-3 font-semibold text-ink">Category</th>
+                <th className="text-left px-4 py-3 font-semibold text-ink">Price</th>
+                <th className="text-left px-4 py-3 font-semibold text-ink">Status</th>
+                <th className="text-left px-4 py-3 font-semibold text-ink">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-hairline">
               {listings?.map((listing) => (
-                <tr key={listing.id} className="hover:bg-slate-50">
+                <tr key={listing.id} className="hover:bg-panel-2">
                   <td className="px-4 py-3">
-                    <div className="font-semibold text-slate-900 max-w-[200px] truncate">{listing.title}</div>
+                    <div className="font-semibold text-ink max-w-[200px] truncate">{listing.title}</div>
                   </td>
-                  <td className="px-4 py-3 text-slate-600">{listing.profiles?.full_name}</td>
+                  <td className="px-4 py-3 text-ink-muted">{listing.profiles?.full_name}</td>
                   <td className="px-4 py-3">
-                    <span className="text-xs font-semibold text-slate-600 capitalize">
+                    <span className="text-xs font-semibold text-ink-muted capitalize">
                       {listing.category.replace("_", " ")}
                     </span>
                   </td>
-                  <td className="px-4 py-3 font-bold text-slate-900">₹{listing.price}</td>
+                  <td className="px-4 py-3 font-bold text-ink">₹{listing.price}</td>
                   <td className="px-4 py-3">
                     <span className={`px-2 py-0.5 rounded-md text-xs font-bold capitalize ${statusColors[listing.status] || ""}`}>
                       {listing.status}

@@ -76,13 +76,13 @@ export default function SignupPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-        <div className="w-full max-w-md text-center space-y-4 bg-white rounded-2xl border border-slate-200 p-8">
+      <div className="min-h-screen flex items-center justify-center bg-panel-2 px-4">
+        <div className="w-full max-w-md text-center space-y-4 bg-panel rounded-2xl border border-hairline p-8">
           <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
             <Mail className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">Check your email</h1>
-          <p className="text-sm text-slate-600">
+          <h1 className="text-2xl font-bold text-ink">Check your email</h1>
+          <p className="text-sm text-ink-muted">
             We&apos;ve sent a verification link to <strong>{email}</strong>. Please check your inbox and verify your account.
           </p>
           <Link
@@ -97,17 +97,17 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-panel-2 px-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
             <Image src="/images/logo.png" alt="Vidyasys" width={48} height={48} className="h-10 w-auto" />
           </Link>
-          <h1 className="text-2xl font-bold text-slate-900">Create your account</h1>
-          <p className="text-sm text-slate-600">Join your college&apos;s student ecosystem</p>
+          <h1 className="text-2xl font-bold text-ink">Create your account</h1>
+          <p className="text-sm text-ink-muted">Join your college&apos;s student ecosystem</p>
         </div>
 
-        <form onSubmit={handleSignup} className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-4">
+        <form onSubmit={handleSignup} className="bg-panel rounded-2xl border border-hairline p-6 shadow-xs space-y-4">
           {error && (
             <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
               {error}
@@ -115,11 +115,11 @@ export default function SignupPage() {
           )}
 
           <div className="space-y-1.5">
-            <label htmlFor="fullName" className="text-sm font-semibold text-slate-700">
+            <label htmlFor="fullName" className="text-sm font-semibold text-ink">
               Full Name
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
               <input
                 id="fullName"
                 type="text"
@@ -127,17 +127,17 @@ export default function SignupPage() {
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Your full name"
                 required
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="email" className="text-sm font-semibold text-slate-700">
+            <label htmlFor="email" className="text-sm font-semibold text-ink">
               College Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
               <input
                 id="email"
                 type="email"
@@ -145,20 +145,20 @@ export default function SignupPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@college.edu"
                 required
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
               />
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-ink-muted">
               Use your college email. We&apos;ll auto-detect and verify your campus.
             </p>
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="password" className="text-sm font-semibold text-slate-700">
+            <label htmlFor="password" className="text-sm font-semibold text-ink">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
               <input
                 id="password"
                 type="password"
@@ -167,7 +167,7 @@ export default function SignupPage() {
                 placeholder="Min. 6 characters"
                 required
                 minLength={6}
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -189,10 +189,10 @@ export default function SignupPage() {
 
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200" />
+              <div className="w-full border-t border-hairline" />
             </div>
             <div className="relative flex justify-center text-xs">
-              <span className="px-2 bg-white text-slate-400">or</span>
+              <span className="px-2 bg-panel text-ink-muted">or</span>
             </div>
           </div>
 
@@ -200,7 +200,7 @@ export default function SignupPage() {
             type="button"
             onClick={handleGoogleSignup}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-ink hover:bg-panel-2 transition disabled:opacity-50"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
@@ -212,7 +212,7 @@ export default function SignupPage() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-slate-600">
+        <p className="text-center text-sm text-ink-muted">
           Already have an account?{" "}
           <Link href="/login" className="font-semibold text-brand-600 hover:text-brand-700">
             Sign in

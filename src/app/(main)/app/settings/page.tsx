@@ -20,17 +20,17 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-2xl font-black text-brand-950 tracking-tight">Settings</h1>
-        <p className="text-sm text-slate-600 mt-1">Manage your account</p>
+        <h1 className="text-2xl font-black text-ink tracking-tight">Settings</h1>
+        <p className="text-sm text-ink-muted mt-1">Manage your account</p>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100">
+      <div className="bg-panel rounded-2xl border border-hairline divide-y divide-hairline">
         <div className="p-4 sm:p-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <User className="w-5 h-5 text-slate-400" />
+            <User className="w-5 h-5 text-ink-muted" />
             <div>
-              <h3 className="text-sm font-bold text-slate-900">Edit Profile</h3>
-              <p className="text-xs text-slate-500">Update your name, bio, and skills</p>
+              <h3 className="text-sm font-bold text-ink">Edit Profile</h3>
+              <p className="text-xs text-ink-muted">Update your name, bio, and skills</p>
             </div>
           </div>
           <button className="text-xs font-semibold text-brand-600 hover:text-brand-700">
@@ -40,10 +40,10 @@ export default function SettingsPage() {
 
         <div className="p-4 sm:p-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Shield className="w-5 h-5 text-slate-400" />
+            <Shield className="w-5 h-5 text-ink-muted" />
             <div>
-              <h3 className="text-sm font-bold text-slate-900">Verification Status</h3>
-              <p className="text-xs text-slate-500">College email verified</p>
+              <h3 className="text-sm font-bold text-ink">Verification Status</h3>
+              <p className="text-xs text-ink-muted">College email verified</p>
             </div>
           </div>
           <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-xs font-bold">

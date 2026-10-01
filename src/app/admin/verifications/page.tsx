@@ -51,32 +51,32 @@ export default async function AdminVerificationsPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-2xl font-black text-slate-900 tracking-tight">Verifications</h1>
+      <h1 className="text-2xl font-black text-ink tracking-tight">Verifications</h1>
 
       {/* Student Verifications */}
       <div>
-        <h2 className="text-lg font-bold text-slate-900 mb-3">Student Verifications</h2>
+        <h2 className="text-lg font-bold text-ink mb-3">Student Verifications</h2>
         {pendingProfiles && pendingProfiles.length > 0 ? (
-          <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+          <div className="bg-panel rounded-xl border border-hairline overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[640px]">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200">
-                    <th className="text-left px-4 py-3 font-semibold text-slate-700">Student</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-700">College</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-700">Applied</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-700">Actions</th>
+                  <tr className="bg-panel-2 border-b border-hairline">
+                    <th className="text-left px-4 py-3 font-semibold text-ink">Student</th>
+                    <th className="text-left px-4 py-3 font-semibold text-ink">College</th>
+                    <th className="text-left px-4 py-3 font-semibold text-ink">Applied</th>
+                    <th className="text-left px-4 py-3 font-semibold text-ink">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-hairline">
                   {pendingProfiles.map((profile) => (
-                    <tr key={profile.id} className="hover:bg-slate-50">
+                    <tr key={profile.id} className="hover:bg-panel-2">
                       <td className="px-4 py-3">
-                        <div className="font-semibold text-slate-900">{profile.full_name}</div>
-                        <div className="text-xs text-slate-500">{profile.email}</div>
+                        <div className="font-semibold text-ink">{profile.full_name}</div>
+                        <div className="text-xs text-ink-muted">{profile.email}</div>
                       </td>
-                      <td className="px-4 py-3 text-slate-600">{profile.college_id}</td>
-                      <td className="px-4 py-3 text-xs text-slate-500">{formatDateTime(profile.created_at)}</td>
+                      <td className="px-4 py-3 text-ink-muted">{profile.college_id}</td>
+                      <td className="px-4 py-3 text-xs text-ink-muted">{formatDateTime(profile.created_at)}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
                           <form action={approveProfile}>
@@ -100,7 +100,7 @@ export default async function AdminVerificationsPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-slate-200 p-8 text-center text-sm text-slate-500">
+          <div className="bg-panel rounded-xl border border-hairline p-8 text-center text-sm text-ink-muted">
             No pending student verifications
           </div>
         )}
@@ -108,26 +108,26 @@ export default async function AdminVerificationsPage() {
 
       {/* Tutor Verifications */}
       <div>
-        <h2 className="text-lg font-bold text-slate-900 mb-3">Tutor Verifications</h2>
+        <h2 className="text-lg font-bold text-ink mb-3">Tutor Verifications</h2>
         {pendingTutors && pendingTutors.length > 0 ? (
-          <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+          <div className="bg-panel rounded-xl border border-hairline overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm min-w-[560px]">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200">
-                    <th className="text-left px-4 py-3 font-semibold text-slate-700">Tutor</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-700">Subjects</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-700">Actions</th>
+                  <tr className="bg-panel-2 border-b border-hairline">
+                    <th className="text-left px-4 py-3 font-semibold text-ink">Tutor</th>
+                    <th className="text-left px-4 py-3 font-semibold text-ink">Subjects</th>
+                    <th className="text-left px-4 py-3 font-semibold text-ink">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-hairline">
                   {pendingTutors.map((tutor) => (
-                    <tr key={tutor.id} className="hover:bg-slate-50">
+                    <tr key={tutor.id} className="hover:bg-panel-2">
                       <td className="px-4 py-3">
-                        <div className="font-semibold text-slate-900">{tutor.profiles?.full_name}</div>
-                        <div className="text-xs text-slate-500">{tutor.profiles?.email}</div>
+                        <div className="font-semibold text-ink">{tutor.profiles?.full_name}</div>
+                        <div className="text-xs text-ink-muted">{tutor.profiles?.email}</div>
                       </td>
-                      <td className="px-4 py-3 text-xs text-slate-600">{tutor.subjects?.join(", ")}</td>
+                      <td className="px-4 py-3 text-xs text-ink-muted">{tutor.subjects?.join(", ")}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
                           <form action={approveTutor}>
@@ -151,7 +151,7 @@ export default async function AdminVerificationsPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-slate-200 p-8 text-center text-sm text-slate-500">
+          <div className="bg-panel rounded-xl border border-hairline p-8 text-center text-sm text-ink-muted">
             No pending tutor verifications
           </div>
         )}

@@ -27,15 +27,15 @@ export default async function ListingDetailPage({ params }: PageProps) {
     <div className="max-w-4xl mx-auto space-y-6">
       <Link
         href="/app/explore"
-        className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-brand-600 transition"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-ink-muted hover:text-brand-600 transition"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Explore
       </Link>
 
-      <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+      <div className="bg-panel rounded-2xl border border-hairline overflow-hidden">
         {listing.listing_images?.[0] && (
-          <div className="relative aspect-video bg-slate-100">
+          <div className="relative aspect-video bg-panel-2">
             <Image
               src={listing.listing_images[0].image_url}
               alt={listing.title}
@@ -53,7 +53,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
               <span className="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-bold uppercase">
                 {listing.category.replace("_", " ")}
               </span>
-              <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-xs font-bold">
+              <span className="px-2 py-0.5 rounded-md bg-panel-2 text-ink-muted text-xs font-bold">
                 {listing.listing_type}
               </span>
               {listing.is_digital && (
@@ -62,51 +62,51 @@ export default async function ListingDetailPage({ params }: PageProps) {
                 </span>
               )}
             </div>
-            <h1 className="text-2xl font-black text-slate-900">{listing.title}</h1>
+            <h1 className="text-2xl font-black text-ink">{listing.title}</h1>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="bg-slate-50 rounded-lg p-3 text-center">
-              <div className="text-lg font-black text-slate-900">{formatPrice(listing.price)}</div>
-              <div className="text-xs text-slate-500">Price</div>
+            <div className="bg-panel-2 rounded-lg p-3 text-center">
+              <div className="text-lg font-black text-ink">{formatPrice(listing.price)}</div>
+              <div className="text-xs text-ink-muted">Price</div>
             </div>
-            <div className="bg-slate-50 rounded-lg p-3 text-center">
-              <div className="text-lg font-black text-slate-900">Sem {listing.semester}</div>
-              <div className="text-xs text-slate-500">Semester</div>
+            <div className="bg-panel-2 rounded-lg p-3 text-center">
+              <div className="text-lg font-black text-ink">Sem {listing.semester}</div>
+              <div className="text-xs text-ink-muted">Semester</div>
             </div>
-            <div className="bg-slate-50 rounded-lg p-3 text-center">
-              <div className="text-lg font-black text-slate-900">{listing.branch}</div>
-              <div className="text-xs text-slate-500">Branch</div>
+            <div className="bg-panel-2 rounded-lg p-3 text-center">
+              <div className="text-lg font-black text-ink">{listing.branch}</div>
+              <div className="text-xs text-ink-muted">Branch</div>
             </div>
-            <div className="bg-slate-50 rounded-lg p-3 text-center">
-              <div className="text-lg font-black text-slate-900">{listing.available_quantity}</div>
-              <div className="text-xs text-slate-500">Available</div>
+            <div className="bg-panel-2 rounded-lg p-3 text-center">
+              <div className="text-lg font-black text-ink">{listing.available_quantity}</div>
+              <div className="text-xs text-ink-muted">Available</div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <h3 className="font-bold text-slate-900">Description</h3>
-            <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap">{listing.description}</p>
+            <h3 className="font-bold text-ink">Description</h3>
+            <p className="text-sm text-ink-muted leading-relaxed whitespace-pre-wrap">{listing.description}</p>
           </div>
 
           <div className="space-y-2">
-            <h3 className="font-bold text-slate-900">Subject</h3>
-            <p className="text-sm text-slate-600">{listing.subject}</p>
+            <h3 className="font-bold text-ink">Subject</h3>
+            <p className="text-sm text-ink-muted">{listing.subject}</p>
           </div>
 
           {listing.profiles && (
-            <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-xl">
+            <div className="flex items-center gap-3 p-4 bg-panel-2 rounded-xl">
               <div className="w-10 h-10 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center text-sm font-bold">
                 {listing.profiles.full_name?.split(" ").map((n: string) => n[0]).join("").slice(0, 2)}
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-bold text-slate-900">{listing.profiles.full_name}</span>
+                  <span className="text-sm font-bold text-ink">{listing.profiles.full_name}</span>
                   {listing.profiles.verification_status === "verified" && (
                     <ShieldCheck className="w-4 h-4 text-blue-600" />
                   )}
                 </div>
-                <span className="text-xs text-slate-500">
+                <span className="text-xs text-ink-muted">
                   {listing.profiles.branch} • Sem {listing.profiles.semester}
                 </span>
               </div>

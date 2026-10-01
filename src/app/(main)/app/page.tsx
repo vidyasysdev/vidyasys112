@@ -28,10 +28,10 @@ export default async function AppHomePage() {
     <div className="space-y-8 max-w-7xl mx-auto">
       {/* Greeting */}
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-black text-brand-950 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-black text-ink tracking-tight">
           Welcome back, {displayName.split(" ")[0]}
         </h1>
-        <p className="text-slate-600">
+        <p className="text-ink-muted">
           What would you like to explore today?
         </p>
       </div>
@@ -44,12 +44,12 @@ export default async function AppHomePage() {
           { label: "Tutors Online", value: "—", icon: Users, color: "bg-purple-50 text-purple-600" },
           { label: "Trending", value: "—", icon: TrendingUp, color: "bg-amber-50 text-amber-600" },
         ].map((stat) => (
-          <div key={stat.label} className="bg-white rounded-xl border border-slate-200 p-4 space-y-2">
+          <div key={stat.label} className="bg-panel rounded-xl border border-hairline p-4 space-y-2">
             <div className={`w-8 h-8 rounded-lg ${stat.color} flex items-center justify-center`}>
               <stat.icon className="w-4 h-4" />
             </div>
-            <div className="text-2xl font-black text-slate-900">{stat.value}</div>
-            <div className="text-xs text-slate-500 font-medium">{stat.label}</div>
+            <div className="text-2xl font-black text-ink">{stat.value}</div>
+            <div className="text-xs text-ink-muted font-medium">{stat.label}</div>
           </div>
         ))}
       </div>
@@ -65,23 +65,23 @@ export default async function AppHomePage() {
           <Link
             key={action.title}
             href={action.href}
-            className="group bg-white rounded-xl border border-slate-200 p-5 hover:shadow-md hover:border-brand-200 transition-all"
+            className="group bg-panel rounded-xl border border-hairline p-5 hover:shadow-md hover:border-brand-200 transition-all"
           >
             <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${action.color} flex items-center justify-center text-white mb-3`}>
               <ArrowRight className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-slate-900 mb-1">{action.title}</h3>
-            <p className="text-xs text-slate-500">{action.description}</p>
+            <h3 className="font-bold text-ink mb-1">{action.title}</h3>
+            <p className="text-xs text-ink-muted">{action.description}</p>
           </Link>
         ))}
       </div>
 
       {/* Featured Section */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-8">
+      <div className="bg-panel rounded-2xl border border-hairline p-6 sm:p-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">Get Started</h2>
-            <p className="text-sm text-slate-500">Complete your profile to start buying and selling</p>
+            <h2 className="text-lg font-bold text-ink">Get Started</h2>
+            <p className="text-sm text-ink-muted">Complete your profile to start buying and selling</p>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -90,11 +90,11 @@ export default async function AppHomePage() {
             { step: "2", title: "Browse Listings", done: false },
             { step: "3", title: "Make First Purchase", done: false },
           ].map((item) => (
-            <div key={item.step} className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 border border-slate-100">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${item.done ? "bg-emerald-100 text-emerald-700" : "bg-slate-200 text-slate-600"}`}>
+            <div key={item.step} className="flex items-center gap-3 p-3 rounded-lg bg-panel-2 border border-hairline">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${item.done ? "bg-emerald-100 text-emerald-700" : "bg-panel-2 text-ink-muted"}`}>
                 {item.done ? "✓" : item.step}
               </div>
-              <span className="text-sm font-semibold text-slate-700">{item.title}</span>
+              <span className="text-sm font-semibold text-ink">{item.title}</span>
             </div>
           ))}
         </div>

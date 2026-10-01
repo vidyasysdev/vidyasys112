@@ -110,13 +110,13 @@ export default function VerifyCollegePage() {
 
   if (step === "done") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
-        <div className="w-full max-w-md text-center space-y-4 bg-white rounded-2xl border border-slate-200 p-8">
+      <div className="min-h-screen flex items-center justify-center bg-panel-2 px-4">
+        <div className="w-full max-w-md text-center space-y-4 bg-panel rounded-2xl border border-hairline p-8">
           <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">College verified!</h1>
-          <p className="text-sm text-slate-600">
+          <h1 className="text-2xl font-bold text-ink">College verified!</h1>
+          <p className="text-sm text-ink-muted">
             Your college email <strong>{collegeEmail}</strong> has been verified. You now have full access to Vidyasys.
           </p>
           <button
@@ -132,19 +132,19 @@ export default function VerifyCollegePage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-panel-2 px-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
             <Image src="/images/logo.png" alt="Vidyasys" width={48} height={48} className="h-10 w-auto" />
           </Link>
-          <h1 className="text-2xl font-bold text-slate-900">Verify your college</h1>
-          <p className="text-sm text-slate-600">
+          <h1 className="text-2xl font-bold text-ink">Verify your college</h1>
+          <p className="text-sm text-ink-muted">
             Enter your college email to get verified as a student
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-4">
+        <div className="bg-panel rounded-2xl border border-hairline p-6 shadow-xs space-y-4">
           <div className="flex items-center gap-3 p-3 rounded-lg bg-brand-50 border border-brand-100">
             <ShieldCheck className="w-5 h-5 text-brand-600 shrink-0" />
             <p className="text-xs text-brand-700">
@@ -161,11 +161,11 @@ export default function VerifyCollegePage() {
           {step === "email" && (
             <form onSubmit={handleSendOtp} className="space-y-4">
               <div className="space-y-1.5">
-                <label htmlFor="collegeEmail" className="text-sm font-semibold text-slate-700">
+                <label htmlFor="collegeEmail" className="text-sm font-semibold text-ink">
                   College Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                   <input
                     id="collegeEmail"
                     type="email"
@@ -173,10 +173,10 @@ export default function VerifyCollegePage() {
                     onChange={(e) => setCollegeEmail(e.target.value)}
                     placeholder="you@vpt.edu.in"
                     required
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                   />
                 </div>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-ink-muted">
                   We&apos;ll send a one-time code to verify you&apos;re a student.
                 </p>
               </div>
@@ -205,11 +205,11 @@ export default function VerifyCollegePage() {
               </div>
 
               <div className="space-y-1.5">
-                <label htmlFor="otp" className="text-sm font-semibold text-slate-700">
+                <label htmlFor="otp" className="text-sm font-semibold text-ink">
                   Verification Code
                 </label>
                 <div className="relative">
-                  <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
                   <input
                     id="otp"
                     type="text"
@@ -217,7 +217,7 @@ export default function VerifyCollegePage() {
                     onChange={(e) => setOtp(e.target.value)}
                     placeholder="Enter the code from your email"
                     required
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -240,7 +240,7 @@ export default function VerifyCollegePage() {
               <button
                 type="button"
                 onClick={() => { setStep("email"); setOtp(""); setError(null); }}
-                className="w-full text-center text-sm text-slate-500 hover:text-slate-700"
+                className="w-full text-center text-sm text-ink-muted hover:text-ink"
               >
                 Change email address
               </button>
@@ -248,7 +248,7 @@ export default function VerifyCollegePage() {
           )}
         </div>
 
-        <p className="text-center text-sm text-slate-600">
+        <p className="text-center text-sm text-ink-muted">
           Want to use email/password instead?{" "}
           <button
             onClick={async () => { await supabase.auth.signOut(); window.location.href = "/signup"; }}
@@ -257,10 +257,10 @@ export default function VerifyCollegePage() {
             Sign up with college email
           </button>
         </p>
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-ink-muted">
           <button
             onClick={async () => { await supabase.auth.signOut(); window.location.href = "/login"; }}
-            className="hover:text-slate-600"
+            className="hover:text-ink-muted"
           >
             Sign out and use a different account
           </button>

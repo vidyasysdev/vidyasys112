@@ -17,7 +17,7 @@ export default async function MainLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-panel-2 flex">
       <AppSidebar user={user} />
       <div className="flex-1 flex flex-col lg:ml-64">
         <AppTopbar user={user} />
