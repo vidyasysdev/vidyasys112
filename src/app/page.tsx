@@ -82,7 +82,7 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-28 lg:py-36">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-semibold text-ink">
-              <Image src="/images/logo.png" alt="" width={20} height={20} className="h-4 w-auto" />
+              <Image src="/images/logo.jpeg" alt="" width={20} height={20} className="h-4 w-auto" />
               Launching with Vidyalankar Polytechnic
             </div>
 

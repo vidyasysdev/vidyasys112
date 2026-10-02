@@ -55,7 +55,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
-            <Image src="/images/logo.png" alt="Vidyasys" width={48} height={48} className="h-10 w-auto" />
+            <Image src="/images/logo.jpeg" alt="Vidyasys" width={48} height={48} className="h-10 w-auto" />
           </Link>
           <h1 className="text-2xl font-bold text-ink">Welcome back</h1>
           <p className="text-sm text-ink-muted">Sign in to your student account</p>

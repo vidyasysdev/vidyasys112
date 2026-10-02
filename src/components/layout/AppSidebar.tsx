@@ -53,7 +53,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
       <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-panel border-r border-hairline z-40">
         <div className="flex items-center gap-2.5 px-6 h-16 border-b border-hairline">
           <Image
-            src="/images/logo.png"
+            src="/images/logo.jpeg"
             alt="Vidyasys"
             width={40}
             height={40}

@@ -4,19 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
+import { VP_BRANCHES, SEMESTERS } from "@/lib/academics";
 import { User, BookOpen, Phone, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
-
-const BRANCHES = [
-  "Computer Science",
-  "Information Technology",
-  "Electronics & Communication",
-  "Electrical Engineering",
-  "Mechanical Engineering",
-  "Civil Engineering",
-  "Chemical Engineering",
-  "Biotechnology",
-  "Other",
-];
 
 export default function OnboardingPage() {
   const [fullName, setFullName] = useState("");
@@ -171,7 +160,7 @@ export default function OnboardingPage() {
     <div className="min-h-screen flex items-center justify-center bg-panel-2 px-4 py-8">
       <div className="w-full max-w-lg space-y-8">
         <div className="text-center space-y-2">
-          <Image src="/images/logo.png" alt="Vidyasys" width={48} height={48} className="h-10 w-auto mx-auto" />
+          <Image src="/images/logo.jpeg" alt="Vidyasys" width={48} height={48} className="h-10 w-auto mx-auto" />
           <h1 className="text-2xl font-bold text-ink">Complete your profile</h1>
           <p className="text-sm text-ink-muted">
             Tell us about yourself so others can find you on campus
@@ -218,8 +207,8 @@ export default function OnboardingPage() {
                   className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-panel"
                 >
                   <option value="">Select</option>
-                  {BRANCHES.map((b) => (
-                    <option key={b} value={b}>{b}</option>
+                  {VP_BRANCHES.map((b) => (
+                    <option key={b.code} value={b.code}>{b.code} — {b.name}</option>
                   ))}
                 </select>
               </div>
@@ -235,7 +224,7 @@ export default function OnboardingPage() {
                 onChange={(e) => setSemester(Number(e.target.value))}
                 className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-panel"
               >
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
+                {SEMESTERS.map((s) => (
                   <option key={s} value={s}>Sem {s}</option>
                 ))}
               </select>
@@ -252,7 +241,7 @@ export default function OnboardingPage() {
               onChange={(e) => setYearOfStudy(Number(e.target.value))}
               className="w-full px-4 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent appearance-none bg-panel"
             >
-              {[1, 2, 3, 4].map((y) => (
+              {[1, 2, 3].map((y) => (
                 <option key={y} value={y}>Year {y}</option>
               ))}
             </select>

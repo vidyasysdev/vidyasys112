@@ -38,7 +38,7 @@ export function Footer() {
           <div className="space-y-3">
             <Link href="/" className="flex items-center gap-2.5">
               <Image
-                src="/images/logo.png"
+                src="/images/logo.jpeg"
                 alt="Vidyasys"
                 width={36}
                 height={36}

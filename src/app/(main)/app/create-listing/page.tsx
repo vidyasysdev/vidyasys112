@@ -5,22 +5,13 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Loader2, Upload } from "lucide-react";
 import Link from "next/link";
+import { VP_BRANCHES, SEMESTERS } from "@/lib/academics";
 
 const CATEGORIES = [
   { value: "notes", label: "Notes" },
   { value: "academic_projects", label: "Academic Projects" },
   { value: "hardware_projects", label: "Hardware Projects" },
   { value: "student_essentials", label: "Student Essentials" },
-];
-
-const BRANCHES = [
-  "Computer Science",
-  "Electronics & Communication",
-  "Mechanical",
-  "Electrical",
-  "Civil",
-  "Information Technology",
-  "Other",
 ];
 
 export default function CreateListingPage() {
@@ -34,7 +25,7 @@ export default function CreateListingPage() {
   const [category, setCategory] = useState("notes");
   const [subject, setSubject] = useState("");
   const [semester, setSemester] = useState(1);
-  const [branch, setBranch] = useState("Computer Science");
+  const [branch, setBranch] = useState("CO");
   const [listingType, setListingType] = useState<"sell" | "rent" | "both">("sell");
   const [price, setPrice] = useState(0);
   const [rentPrice, setRentPrice] = useState<number | null>(null);
@@ -184,7 +175,7 @@ export default function CreateListingPage() {
               onChange={(e) => setSemester(Number(e.target.value))}
               className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
+              {SEMESTERS.map((s) => (
                 <option key={s} value={s}>Sem {s}</option>
               ))}
             </select>
@@ -235,8 +226,8 @@ export default function CreateListingPage() {
             onChange={(e) => setBranch(e.target.value)}
             className="w-full px-4 py-2.5 rounded-lg bg-panel border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
           >
-            {BRANCHES.map((b) => (
-              <option key={b} value={b}>{b}</option>
+            {VP_BRANCHES.map((b) => (
+              <option key={b.code} value={b.code}>{b.code} — {b.name}</option>
             ))}
           </select>
         </div>

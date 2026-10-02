@@ -73,14 +73,20 @@ export default function VerifyCollegePage() {
     const userId = data.user?.id;
 
     if (userId) {
-      const { data: existing } = await supabase
+      const { data: existing, error: existingError } = await supabase
         .from("profiles")
         .select("id")
         .eq("user_id", userId)
         .single();
 
+      if (existingError && existingError.code !== "PGRST116") {
+        setError("Could not load your profile. Please try again.");
+        setLoading(false);
+        return;
+      }
+
       if (existing) {
-        await supabase
+        const { error: updateError } = await supabase
           .from("profiles")
           .update({
             email: collegeEmail,
@@ -88,8 +94,14 @@ export default function VerifyCollegePage() {
             verification_status: "verified",
           })
           .eq("user_id", userId);
+
+        if (updateError) {
+          setError(updateError.message);
+          setLoading(false);
+          return;
+        }
       } else {
-        await supabase
+        const { error: insertError } = await supabase
           .from("profiles")
           .insert({
             user_id: userId,
@@ -101,6 +113,12 @@ export default function VerifyCollegePage() {
             year_of_study: 1,
             verification_status: "verified",
           });
+
+        if (insertError) {
+          setError(insertError.message);
+          setLoading(false);
+          return;
+        }
       }
     }
 
@@ -136,7 +154,7 @@ export default function VerifyCollegePage() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
           <Link href="/" className="inline-flex items-center gap-2.5 mb-4">
-            <Image src="/images/logo.png" alt="Vidyasys" width={48} height={48} className="h-10 w-auto" />
+            <Image src="/images/logo.jpeg" alt="Vidyasys" width={48} height={48} className="h-10 w-auto" />
           </Link>
           <h1 className="text-2xl font-bold text-ink">Verify your college</h1>
           <p className="text-sm text-ink-muted">
