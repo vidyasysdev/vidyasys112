@@ -1,5 +1,5 @@
--- Admin role + moderation policies
--- Run this in Supabase SQL Editor AFTER schema.sql
+-- Admin role + moderation policies (idempotent — safe to re-run)
+-- Run this in Supabase SQL Editor
 
 -- 1. Admin flag on profiles
 ALTER TABLE profiles ADD COLUMN IF NOT EXISTS is_admin BOOLEAN DEFAULT false;
@@ -18,31 +18,49 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER STABLE;
 
 -- 3. Admin moderation policies (SELECT everything + UPDATE status fields)
+DROP POLICY IF EXISTS "Admins can view all listings" ON listings;
 CREATE POLICY "Admins can view all listings" ON listings
   FOR SELECT USING (public.is_admin());
+
+DROP POLICY IF EXISTS "Admins can update listings" ON listings;
 CREATE POLICY "Admins can update listings" ON listings
   FOR UPDATE USING (public.is_admin());
 
+DROP POLICY IF EXISTS "Admins can update profiles" ON profiles;
 CREATE POLICY "Admins can update profiles" ON profiles
   FOR UPDATE USING (public.is_admin());
 
+DROP POLICY IF EXISTS "Admins can update tutor profiles" ON tutor_profiles;
 CREATE POLICY "Admins can update tutor profiles" ON tutor_profiles
   FOR UPDATE USING (public.is_admin());
 
+DROP POLICY IF EXISTS "Admins can view all orders" ON orders;
 CREATE POLICY "Admins can view all orders" ON orders
   FOR SELECT USING (public.is_admin());
+
+DROP POLICY IF EXISTS "Admins can view all bookings" ON bookings;
 CREATE POLICY "Admins can view all bookings" ON bookings
   FOR SELECT USING (public.is_admin());
+
+DROP POLICY IF EXISTS "Admins can view all reviews" ON reviews;
 CREATE POLICY "Admins can view all reviews" ON reviews
   FOR SELECT USING (public.is_admin());
+
+DROP POLICY IF EXISTS "Admins can view all reports" ON user_reports;
 CREATE POLICY "Admins can view all reports" ON user_reports
   FOR SELECT USING (public.is_admin());
+
+DROP POLICY IF EXISTS "Admins can view all payouts" ON payouts;
 CREATE POLICY "Admins can view all payouts" ON payouts
   FOR SELECT USING (public.is_admin());
+
+DROP POLICY IF EXISTS "Admins can view all conversations" ON conversations;
 CREATE POLICY "Admins can view all conversations" ON conversations
   FOR SELECT USING (public.is_admin());
+
+DROP POLICY IF EXISTS "Admins can view all notifications" ON notifications;
 CREATE POLICY "Admins can view all notifications" ON notifications
   FOR SELECT USING (public.is_admin());
 
--- 4. Make yourself admin (replace with your login email):
--- UPDATE profiles SET is_admin = true WHERE email = 'you@vpt.edu.in';
+-- 4. Make yourself admin:
+UPDATE profiles SET is_admin = true WHERE email = 'aryan.sonsurkar@vpt.edu.in';
