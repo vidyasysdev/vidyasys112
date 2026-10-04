@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Star, Clock, ShieldCheck, Tag } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { ReportButton } from "@/components/marketplace/ReportButton";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -116,6 +117,8 @@ export default async function ListingDetailPage({ params }: PageProps) {
           <button className="w-full py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm transition">
             {listing.listing_type === "rent" ? "Rent Now" : listing.listing_type === "both" ? "Buy / Rent" : "Purchase Now"}
           </button>
+
+          <ReportButton listingId={listing.id} />
         </div>
       </div>
     </div>

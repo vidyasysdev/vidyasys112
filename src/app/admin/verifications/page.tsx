@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { formatDateTime } from "@/lib/utils";
+import { logAdminAction } from "@/lib/admin-log";
 
 export default async function AdminVerificationsPage() {
   const supabase = await createClient();
@@ -20,32 +21,68 @@ export default async function AdminVerificationsPage() {
   async function approveProfile(formData: FormData) {
     "use server";
     const id = formData.get("id") as string;
+    const label = formData.get("label") as string;
     const supabase = await createClient();
     await supabase.from("profiles").update({ verification_status: "verified" }).eq("id", id);
+    await logAdminAction({
+      action: "moderation_action",
+      targetType: "profile",
+      targetId: id,
+      targetLabel: label || id,
+      previousValue: "pending",
+      newValue: "verified",
+    });
     revalidatePath("/admin/verifications");
   }
 
   async function rejectProfile(formData: FormData) {
     "use server";
     const id = formData.get("id") as string;
+    const label = formData.get("label") as string;
     const supabase = await createClient();
     await supabase.from("profiles").update({ verification_status: "rejected" }).eq("id", id);
+    await logAdminAction({
+      action: "moderation_action",
+      targetType: "profile",
+      targetId: id,
+      targetLabel: label || id,
+      previousValue: "pending",
+      newValue: "rejected",
+    });
     revalidatePath("/admin/verifications");
   }
 
   async function approveTutor(formData: FormData) {
     "use server";
     const id = formData.get("id") as string;
+    const label = formData.get("label") as string;
     const supabase = await createClient();
     await supabase.from("tutor_profiles").update({ verification_status: "verified" }).eq("id", id);
+    await logAdminAction({
+      action: "moderation_action",
+      targetType: "tutor_profile",
+      targetId: id,
+      targetLabel: label || id,
+      previousValue: "pending",
+      newValue: "verified",
+    });
     revalidatePath("/admin/verifications");
   }
 
   async function rejectTutor(formData: FormData) {
     "use server";
     const id = formData.get("id") as string;
+    const label = formData.get("label") as string;
     const supabase = await createClient();
     await supabase.from("tutor_profiles").update({ verification_status: "rejected" }).eq("id", id);
+    await logAdminAction({
+      action: "moderation_action",
+      targetType: "tutor_profile",
+      targetId: id,
+      targetLabel: label || id,
+      previousValue: "pending",
+      newValue: "rejected",
+    });
     revalidatePath("/admin/verifications");
   }
 
@@ -81,12 +118,14 @@ export default async function AdminVerificationsPage() {
                         <div className="flex items-center gap-2">
                           <form action={approveProfile}>
                             <input type="hidden" name="id" value={profile.id} />
+                            <input type="hidden" name="label" value={profile.full_name || profile.email} />
                             <button type="submit" className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
                               Approve
                             </button>
                           </form>
                           <form action={rejectProfile}>
                             <input type="hidden" name="id" value={profile.id} />
+                            <input type="hidden" name="label" value={profile.full_name || profile.email} />
                             <button type="submit" className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
                               Reject
                             </button>
@@ -132,12 +171,14 @@ export default async function AdminVerificationsPage() {
                         <div className="flex items-center gap-2">
                           <form action={approveTutor}>
                             <input type="hidden" name="id" value={tutor.id} />
+                            <input type="hidden" name="label" value={tutor.profiles?.full_name || tutor.profiles?.email || ""} />
                             <button type="submit" className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
                               Approve
                             </button>
                           </form>
                           <form action={rejectTutor}>
                             <input type="hidden" name="id" value={tutor.id} />
+                            <input type="hidden" name="label" value={tutor.profiles?.full_name || tutor.profiles?.email || ""} />
                             <button type="submit" className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
                               Reject
                             </button>

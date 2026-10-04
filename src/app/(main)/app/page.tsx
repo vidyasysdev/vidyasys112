@@ -1,6 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
-import { BookOpen, Cpu, Users, ShoppingCart, ArrowRight, Star, TrendingUp } from "lucide-react";
+import { BookOpen, Cpu, Users, ShoppingCart, ArrowRight, Star, TrendingUp, Gavel, Handshake, Shield } from "lucide-react";
 import Link from "next/link";
+
+const ROLE_LABELS: Record<string, string> = {
+  admin: "Admin",
+  creator: "Creator",
+  moderator: "Moderator",
+  ambassador: "Brand Ambassador",
+  user: "Student",
+};
 
 export default async function AppHomePage() {
   const supabase = await createClient();
@@ -12,6 +20,19 @@ export default async function AppHomePage() {
     .single();
 
   const displayName = profile?.full_name || user?.user_metadata?.full_name || "Student";
+  const role = profile?.role === "admin" || profile?.is_admin === true ? "admin" : profile?.role || "user";
+
+  const roleLinks: { href: string; label: string; icon: typeof Gavel; color: string }[] = [
+    ...(role === "admin" || role === "moderator"
+      ? [{ href: "/app/moderation", label: "Moderation Queue", icon: Gavel, color: "from-amber-500 to-amber-600" }]
+      : []),
+    ...(role === "ambassador"
+      ? [{ href: "/app/ambassador", label: "Ambassador Tools", icon: Handshake, color: "from-rose-500 to-rose-600" }]
+      : []),
+    ...(role === "admin"
+      ? [{ href: "/admin", label: "Admin Panel", icon: Shield, color: "from-slate-600 to-slate-700" }]
+      : []),
+  ];
 
   const [{ count: listingsCount }, { count: ordersCount }] = await Promise.all([
     supabase
@@ -28,9 +49,14 @@ export default async function AppHomePage() {
     <div className="space-y-8 max-w-7xl mx-auto">
       {/* Greeting */}
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-black text-ink tracking-tight">
-          Welcome back, {displayName.split(" ")[0]}
-        </h1>
+        <div className="flex items-center gap-3 flex-wrap">
+          <h1 className="text-2xl sm:text-3xl font-black text-ink tracking-tight">
+            Welcome back, {displayName.split(" ")[0]}
+          </h1>
+          <span className="px-2.5 py-1 rounded-full bg-royal/10 text-royal text-xs font-bold">
+            {ROLE_LABELS[role] || role}
+          </span>
+        </div>
         <p className="text-ink-muted">
           What would you like to explore today?
         </p>
@@ -75,6 +101,24 @@ export default async function AppHomePage() {
           </Link>
         ))}
       </div>
+
+      {/* Role tools */}
+      {roleLinks.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {roleLinks.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="group bg-panel rounded-xl border border-hairline p-5 hover:shadow-md hover:border-brand-200 transition-all"
+            >
+              <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${item.color} flex items-center justify-center text-white mb-3`}>
+                <item.icon className="w-5 h-5" />
+              </div>
+              <h3 className="font-bold text-ink">{item.label}</h3>
+            </Link>
+          ))}
+        </div>
+      )}
 
       {/* Featured Section */}
       <div className="bg-panel rounded-2xl border border-hairline p-6 sm:p-8">

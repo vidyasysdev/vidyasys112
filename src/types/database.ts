@@ -41,6 +41,8 @@ export interface Database {
           is_seller_verified: boolean;
           is_tutor_verified: boolean;
           is_admin: boolean;
+          role: "admin" | "creator" | "moderator" | "ambassador" | "user";
+          account_status: "active" | "suspended" | "disabled";
           onboarding_completed: boolean;
           created_at: string;
           updated_at: string;
@@ -241,7 +243,9 @@ export interface Database {
           review_id: string | null;
           reason: string;
           description: string;
-          status: "pending" | "investigating" | "resolved" | "dismissed";
+          status: "pending" | "in_review" | "resolved" | "rejected";
+          assigned_to: string | null;
+          updated_at: string | null;
           created_at: string;
         };
         Insert: Omit<Database["public"]["Tables"]["user_reports"]["Row"], "id" | "created_at">;
@@ -261,6 +265,64 @@ export interface Database {
         };
         Insert: Omit<Database["public"]["Tables"]["payouts"]["Row"], "id" | "created_at">;
         Update: Partial<Database["public"]["Tables"]["payouts"]["Insert"]>;
+      };
+      role_permissions: {
+        Row: {
+          role: "admin" | "creator" | "moderator" | "ambassador" | "user";
+          permission: string;
+          enabled: boolean;
+          updated_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["role_permissions"]["Row"], "updated_at">;
+        Update: Partial<Database["public"]["Tables"]["role_permissions"]["Insert"]>;
+      };
+      project_features: {
+        Row: {
+          project_key: "notes" | "academic_projects" | "hardware_projects" | "student_essentials";
+          feature_key: string;
+          enabled: boolean;
+          updated_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["project_features"]["Row"], "updated_at">;
+        Update: Partial<Database["public"]["Tables"]["project_features"]["Insert"]>;
+      };
+      platform_settings: {
+        Row: {
+          key: string;
+          value: string;
+          updated_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["platform_settings"]["Row"], "updated_at">;
+        Update: Partial<Database["public"]["Tables"]["platform_settings"]["Insert"]>;
+      };
+      audit_logs: {
+        Row: {
+          id: string;
+          actor_id: string | null;
+          actor_label: string | null;
+          action: string;
+          target_type: string | null;
+          target_id: string | null;
+          target_label: string | null;
+          previous_value: string | null;
+          new_value: string | null;
+          details: Json | null;
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["audit_logs"]["Row"], "id" | "created_at">;
+        Update: Partial<Database["public"]["Tables"]["audit_logs"]["Insert"]>;
+      };
+      report_notes: {
+        Row: {
+          id: string;
+          report_id: string;
+          author_id: string | null;
+          author_label: string | null;
+          note: string;
+          created_at: string;
+        };
+        Insert: Omit<Database["public"]["Tables"]["report_notes"]["Row"], "id" | "created_at">;
+        Update: Partial<Database["public"]["Tables"]["report_notes"]["Insert"]>;
       };
     };
     Enums: {

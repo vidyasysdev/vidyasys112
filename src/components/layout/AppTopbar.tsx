@@ -11,9 +11,10 @@ interface AppTopbarProps {
       full_name?: string;
     };
   };
+  canCreate?: boolean;
 }
 
-export function AppTopbar({ user }: AppTopbarProps) {
+export function AppTopbar({ user, canCreate = true }: AppTopbarProps) {
   const displayName = user.user_metadata?.full_name || user.email?.split("@")[0] || "Student";
 
   return (
@@ -30,13 +31,15 @@ export function AppTopbar({ user }: AppTopbarProps) {
       </div>
 
       <div className="flex items-center gap-3">
-        <Link
-          href="/app/create-listing"
-          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span className="hidden sm:inline">Create Listing</span>
-        </Link>
+        {canCreate && (
+          <Link
+            href="/app/create-listing"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span className="hidden sm:inline">Create Listing</span>
+          </Link>
+        )}
 
         <Link
           href="/app/notifications"

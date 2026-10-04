@@ -14,6 +14,9 @@ import {
   User,
   Settings,
   LogOut,
+  Gavel,
+  Handshake,
+  Shield,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -23,6 +26,8 @@ interface AppSidebarProps {
     id: string;
     email?: string;
   };
+  role?: string;
+  canModerate?: boolean;
 }
 
 const navItems = [
@@ -36,10 +41,24 @@ const navItems = [
   { href: "/app/settings", label: "Settings", icon: Settings },
 ];
 
-export function AppSidebar({ user }: AppSidebarProps) {
+export function AppSidebar({ user, role = "user", canModerate = false }: AppSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
+
+  const roleItems = [
+    ...(canModerate
+      ? [{ href: "/app/moderation", label: "Moderation", icon: Gavel }]
+      : []),
+    ...(role === "ambassador"
+      ? [{ href: "/app/ambassador", label: "Ambassador", icon: Handshake }]
+      : []),
+    ...(role === "admin"
+      ? [{ href: "/admin", label: "Admin Panel", icon: Shield }]
+      : []),
+  ];
+
+  const items = [...navItems, ...roleItems];
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -62,7 +81,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
         </div>
 
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
+          {items.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
@@ -96,7 +115,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
       {/* Mobile bottom nav — all destinations, horizontally scrollable */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-panel border-t border-hairline px-2 py-1 safe-area-inset-bottom">
         <div className="flex items-center gap-1 overflow-x-auto">
-          {navItems.map((item) => {
+          {items.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link

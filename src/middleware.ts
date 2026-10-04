@@ -15,5 +15,6 @@ export const config = {
     "/verify-email",
     "/login",
     "/signup",
+    "/suspended",
   ],
 };
