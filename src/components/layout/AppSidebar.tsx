@@ -1,0 +1,140 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import {
+  Home,
+  Search,
+  ShoppingCart,
+  Calendar,
+  MessageSquare,
+  Bell,
+  User,
+  Settings,
+  LogOut,
+  Gavel,
+  Handshake,
+  Shield,
+} from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+
+interface AppSidebarProps {
+  user: {
+    id: string;
+    email?: string;
+  };
+  role?: string;
+  canModerate?: boolean;
+}
+
+const navItems = [
+  { href: "/app", label: "Home", icon: Home },
+  { href: "/app/explore", label: "Explore", icon: Search },
+  { href: "/app/orders", label: "Orders", icon: ShoppingCart },
+  { href: "/app/bookings", label: "Bookings", icon: Calendar },
+  { href: "/app/messages", label: "Messages", icon: MessageSquare },
+  { href: "/app/notifications", label: "Notifications", icon: Bell },
+  { href: "/app/profile", label: "Profile", icon: User },
+  { href: "/app/settings", label: "Settings", icon: Settings },
+];
+
+export function AppSidebar({ user, role = "user", canModerate = false }: AppSidebarProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const supabase = createClient();
+
+  const roleItems = [
+    ...(canModerate
+      ? [{ href: "/app/moderation", label: "Moderation", icon: Gavel }]
+      : []),
+    ...(role === "ambassador"
+      ? [{ href: "/app/ambassador", label: "Ambassador", icon: Handshake }]
+      : []),
+    ...(role === "admin"
+      ? [{ href: "/admin", label: "Admin Panel", icon: Shield }]
+      : []),
+  ];
+
+  const items = [...navItems, ...roleItems];
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/");
+    router.refresh();
+  };
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-panel border-r border-hairline z-40">
+        <div className="flex items-center gap-2.5 px-6 h-16 border-b border-hairline">
+          <Image
+            src="/images/logo.jpeg"
+            alt="Vidyasys"
+            width={40}
+            height={40}
+            className="h-8 w-auto"
+          />
+        </div>
+
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          {items.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition",
+                  isActive
+                    ? "bg-royal/10 text-royal"
+                    : "text-ink-muted hover:bg-panel-2 hover:text-ink"
+                )}
+              >
+                <item.icon className={cn("w-5 h-5", isActive ? "text-brand-600" : "text-ink-muted")} />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="px-3 py-4 border-t border-hairline">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-ink-muted hover:bg-panel-2 hover:text-ink transition w-full"
+          >
+            <LogOut className="w-5 h-5 text-ink-muted" />
+            Sign Out
+          </button>
+        </div>
+      </aside>
+
+      {/* Mobile bottom nav — all destinations, horizontally scrollable */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-panel border-t border-hairline px-2 py-1 safe-area-inset-bottom">
+        <div className="flex items-center gap-1 overflow-x-auto">
+          {items.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold transition min-w-[60px] shrink-0",
+                  isActive
+                    ? "text-brand-600"
+                    : "text-ink-muted"
+                )}
+              >
+                <item.icon className={cn("w-5 h-5", isActive ? "text-brand-600" : "text-ink-muted")} />
+                {item.label}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </>
+  );
+}
