@@ -61,7 +61,7 @@ export function AppSidebar({ user, role = "user", canModerate = false }: AppSide
   const items = [...navItems, ...roleItems];
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    if (supabase) await supabase.auth.signOut();
     router.push("/");
     router.refresh();
   };

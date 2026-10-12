@@ -15,7 +15,7 @@ const CATEGORIES = [
 ];
 
 export default function CreateListingPage() {
-  const supabase = createClient();
+  const supabase = createClient()!;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

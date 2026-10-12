@@ -79,6 +79,7 @@ export function ReportManager() {
     try {
       const { createClient } = await import("@/lib/supabase/client");
       const supabase = createClient();
+      if (!supabase) throw new Error("Reports aren't available without Supabase configured.");
 
       const [reportsRes, profilesRes] = await Promise.all([
         supabase.from("user_reports").select("*").order("created_at", { ascending: false }),
@@ -109,6 +110,11 @@ export function ReportManager() {
 
     const { createClient } = await import("@/lib/supabase/client");
     const supabase = createClient();
+    if (!supabase) {
+      setNotes([]);
+      setNotesLoading(false);
+      return;
+    }
     const { data } = await supabase
       .from("report_notes")
       .select("*")

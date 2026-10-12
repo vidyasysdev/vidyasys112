@@ -38,6 +38,12 @@ export default function VerifyCollegePage() {
       return;
     }
 
+    if (!supabase) {
+      setError("College verification isn't configured right now. Please try again later.");
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       email: collegeEmail,
     });
@@ -56,6 +62,12 @@ export default function VerifyCollegePage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
+
+    if (!supabase) {
+      setError("College verification isn't configured right now. Please try again later.");
+      setLoading(false);
+      return;
+    }
 
     const { data, error } = await supabase.auth.verifyOtp({
       email: collegeEmail,
@@ -269,7 +281,7 @@ export default function VerifyCollegePage() {
         <p className="text-center text-sm text-ink-muted">
           Want to use email/password instead?{" "}
           <button
-            onClick={async () => { await supabase.auth.signOut(); window.location.href = "/signup"; }}
+            onClick={async () => { await supabase?.auth.signOut(); window.location.href = "/signup"; }}
             className="font-semibold text-brand-600 hover:text-brand-700"
           >
             Sign up with college email
@@ -277,7 +289,7 @@ export default function VerifyCollegePage() {
         </p>
         <p className="text-center text-xs text-ink-muted">
           <button
-            onClick={async () => { await supabase.auth.signOut(); window.location.href = "/login"; }}
+            onClick={async () => { await supabase?.auth.signOut(); window.location.href = "/login"; }}
             className="hover:text-ink-muted"
           >
             Sign out and use a different account

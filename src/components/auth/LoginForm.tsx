@@ -25,18 +25,20 @@ export function LoginForm() {
     // 1) Real Supabase account, when auth is configured.
     let supabaseError: string | null = null;
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      if (supabase) {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      if (!error) {
-        router.push("/app");
-        router.refresh();
-        return;
+        if (!error) {
+          router.push("/app");
+          router.refresh();
+          return;
+        }
+
+        supabaseError = isNetworkAuthError(error.message) ? null : error.message;
       }
-
-      supabaseError = isNetworkAuthError(error.message) ? null : error.message;
     } catch {
       // Network failure or auth not configured yet.
       supabaseError = null;
@@ -60,6 +62,11 @@ export function LoginForm() {
   };
 
   const handleGoogleLogin = async () => {
+    if (!supabase) {
+      setError("Google sign-in isn't configured right now.");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const { error } = await supabase.auth.signInWithOAuth({

@@ -38,6 +38,11 @@ export function SignupForm() {
     }
 
     let created = false;
+    if (!supabase) {
+      setError("Account creation isn't configured right now. Please try again later.");
+      setLoading(false);
+      return;
+    }
     try {
       const { error } = await supabase.auth.signUp({
         email,
@@ -78,6 +83,11 @@ export function SignupForm() {
   };
 
   const handleGoogleSignup = async () => {
+    if (!supabase) {
+      setError("Google sign-up isn't configured right now.");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const { error } = await supabase.auth.signInWithOAuth({

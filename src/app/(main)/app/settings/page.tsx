@@ -7,7 +7,7 @@ import { LogOut, User, Shield, Pencil, Save, X, Loader2, CheckCircle2 } from "lu
 import { VP_BRANCHES, SEMESTERS } from "@/lib/academics";
 
 export default function SettingsPage() {
-  const supabase = createClient();
+  const supabase = createClient()!;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(true);

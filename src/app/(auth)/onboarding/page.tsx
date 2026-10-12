@@ -23,6 +23,10 @@ export default function OnboardingPage() {
 
   useEffect(() => {
     const loadProfile = async () => {
+      if (!supabase) {
+        router.push("/login");
+        return;
+      }
       setLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -65,6 +69,12 @@ export default function OnboardingPage() {
 
     if (!branch) {
       setError("Please select your branch.");
+      setSaving(false);
+      return;
+    }
+
+    if (!supabase) {
+      setError("Onboarding isn't configured right now. Please try again later.");
       setSaving(false);
       return;
     }
