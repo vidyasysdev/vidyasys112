@@ -113,6 +113,7 @@ export function LoginForm() {
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
               <input
+                suppressHydrationWarning
                 id="email"
                 type="email"
                 value={email}
@@ -132,6 +133,7 @@ export function LoginForm() {
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-muted" />
               <input
+                suppressHydrationWarning
                 id="password"
                 type="password"
                 value={password}
