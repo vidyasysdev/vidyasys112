@@ -50,7 +50,7 @@ export default async function OrdersPage() {
                   <h3 className="text-sm font-bold text-ink truncate">
                     {order.listing?.title || "Order"}
                   </h3>
-                  <div className="flex items-center gap-2 text-xs text-ink-muted mt-0.5">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-ink-muted mt-0.5">
                     <span>{order.order_number}</span>
                     <span>•</span>
                     <span>{formatDateTime(order.created_at)}</span>

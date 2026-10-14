@@ -119,14 +119,14 @@ export default async function AdminVerificationsPage() {
                           <form action={approveProfile}>
                             <input type="hidden" name="id" value={profile.id} />
                             <input type="hidden" name="label" value={profile.full_name || profile.email} />
-                            <button type="submit" className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
+                            <button type="submit" className="px-3 py-2 min-h-[36px] rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
                               Approve
                             </button>
                           </form>
                           <form action={rejectProfile}>
                             <input type="hidden" name="id" value={profile.id} />
                             <input type="hidden" name="label" value={profile.full_name || profile.email} />
-                            <button type="submit" className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
+                            <button type="submit" className="px-3 py-2 min-h-[36px] rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
                               Reject
                             </button>
                           </form>
@@ -172,14 +172,14 @@ export default async function AdminVerificationsPage() {
                           <form action={approveTutor}>
                             <input type="hidden" name="id" value={tutor.id} />
                             <input type="hidden" name="label" value={tutor.profiles?.full_name || tutor.profiles?.email || ""} />
-                            <button type="submit" className="px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
+                            <button type="submit" className="px-3 py-2 min-h-[36px] rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition">
                               Approve
                             </button>
                           </form>
                           <form action={rejectTutor}>
                             <input type="hidden" name="id" value={tutor.id} />
                             <input type="hidden" name="label" value={tutor.profiles?.full_name || tutor.profiles?.email || ""} />
-                            <button type="submit" className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
+                            <button type="submit" className="px-3 py-2 min-h-[36px] rounded-lg bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 transition">
                               Reject
                             </button>
                           </form>

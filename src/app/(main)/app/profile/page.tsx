@@ -46,9 +46,9 @@ export default async function ProfilePage() {
           <div className="w-20 h-20 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center text-2xl font-black">
             {getInitials(displayName)}
           </div>
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-black text-ink">{displayName}</h1>
+          <div className="flex-1 space-y-2 min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-2xl font-black text-ink break-words min-w-0">{displayName}</h1>
               {profile?.verification_status === "verified" && (
                 <ShieldCheck className="w-6 h-6 text-blue-600" />
               )}

@@ -110,7 +110,7 @@ export function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-start justify-center pt-[12vh] px-4"
+      className="fixed inset-0 z-[100] flex items-start justify-center pt-[8vh] sm:pt-[12vh] px-4"
       onClick={() => setOpen(false)}
     >
       <div className="absolute inset-0 bg-ink/40 backdrop-blur-sm" />
@@ -136,7 +136,7 @@ export function CommandPalette() {
           </kbd>
         </div>
 
-        <div className="max-h-[50vh] overflow-y-auto p-2">
+        <div className="max-h-[40vh] sm:max-h-[50vh] overflow-y-auto p-2">
           {flat.length === 0 ? (
             <div className="py-10 text-center space-y-2">
               <Inbox className="w-8 h-8 mx-auto text-ink-muted/60" />

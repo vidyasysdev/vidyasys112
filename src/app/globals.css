@@ -231,10 +231,10 @@
 }
 
 .reveal.reveal-left {
-  transform: translate3d(-28px, 0, 0);
+  transform: translate3d(-14px, 0, 0);
 }
 .reveal.reveal-right {
-  transform: translate3d(28px, 0, 0);
+  transform: translate3d(14px, 0, 0);
 }
 .reveal.reveal-scale {
   transform: scale(0.94);
@@ -243,6 +243,21 @@
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* --- Mobile friendliness --- */
+/* Keep form fields at 16px on phones so iOS doesn't zoom the page on focus */
+@media (max-width: 639px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Guard against transient horizontal overflow (e.g. reveal animations) */
+body {
+  overflow-x: clip;
 }
 
 /* --- Marquee --- */

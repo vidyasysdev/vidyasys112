@@ -80,7 +80,7 @@ export function Footer() {
               <br />
               <a
                 href="mailto:hello@vidyasys.in"
-                className="inline-flex items-center gap-2 hover:text-royal transition"
+                className="inline-flex items-center gap-2 py-1.5 hover:text-royal transition"
               >
                 <Mail className="w-3.5 h-3.5 text-royal" />
                 hello@vidyasys.in
@@ -112,12 +112,12 @@ export function Footer() {
                   style={{ opacity: 1 - i * 0.2 }}
                 />
               </h3>
-              <ul className="space-y-2.5 text-xs">
+              <ul className="space-y-0.5 text-xs">
                 {col.links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group inline-flex items-center gap-1.5 hover:text-royal transition"
+                      className="group inline-flex items-center gap-1.5 py-1.5 hover:text-royal transition"
                     >
                       <span className="w-0 group-hover:w-2 h-px bg-royal transition-all duration-200" />
                       {link.label}
@@ -134,12 +134,12 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Vidyasys. All rights reserved.
           </span>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <a
               href="https://arssystem.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold hover:text-royal transition"
+              className="inline-block py-1.5 font-semibold hover:text-royal transition"
             >
               Designed &amp; Developed by Aryan Sonsurkar
             </a>

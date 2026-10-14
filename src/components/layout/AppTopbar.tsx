@@ -34,7 +34,9 @@ export function AppTopbar({ user, canCreate = true }: AppTopbarProps) {
         {canCreate && (
           <Link
             href="/app/create-listing"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition"
+            aria-label="Create Listing"
+            title="Create Listing"
+            className="flex items-center gap-1.5 px-3 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition"
           >
             <PlusCircle className="w-4 h-4" />
             <span className="hidden sm:inline">Create Listing</span>
@@ -43,7 +45,8 @@ export function AppTopbar({ user, canCreate = true }: AppTopbarProps) {
 
         <Link
           href="/app/notifications"
-          className="relative p-2 rounded-lg text-ink-muted hover:bg-panel-2 transition"
+          aria-label="Notifications"
+          className="relative p-2.5 rounded-lg text-ink-muted hover:bg-panel-2 transition"
         >
           <Bell className="w-5 h-5" />
         </Link>

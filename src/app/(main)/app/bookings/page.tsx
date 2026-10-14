@@ -30,7 +30,7 @@ export default async function BookingsPage() {
               key={booking.id}
               className="bg-panel rounded-xl border border-hairline p-4 sm:p-5"
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center flex-shrink-0">
                     <Calendar className="w-5 h-5" />
@@ -42,7 +42,7 @@ export default async function BookingsPage() {
                     <p className="text-xs text-ink-muted mt-0.5">
                       with {booking.tutor?.full_name || "Tutor"}
                     </p>
-                    <div className="flex items-center gap-3 mt-2 text-xs text-ink-muted">
+                    <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-ink-muted">
                       <span className="flex items-center gap-1">
                         <Clock className="w-3.5 h-3.5" />
                         {formatDateTime(booking.scheduled_at)}

@@ -197,7 +197,7 @@ export default async function AdminSecurityPage() {
         ) : (
           <ul className="divide-y divide-hairline">
             {statusLogs.map((log) => (
-              <li key={log.id} className="px-4 py-3 flex items-center justify-between gap-3">
+              <li key={log.id} className="px-4 py-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
                 <div>
                   <span className="text-sm font-semibold text-ink">
                     {log.target_label || log.target_id}

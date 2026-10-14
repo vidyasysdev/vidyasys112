@@ -24,7 +24,7 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold transition min-w-[56px] ${
+              className={`flex flex-col items-center justify-center gap-0.5 px-3 py-2 min-h-[44px] rounded-lg text-[11px] font-semibold transition min-w-[56px] ${
                 isActive ? "text-royal" : "text-ink-muted"
               }`}
             >
@@ -35,7 +35,7 @@ export function BottomNav() {
         })}
         <button
           onClick={openSearch}
-          className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold text-ink-muted min-w-[56px]"
+          className="flex flex-col items-center justify-center gap-0.5 px-3 py-2 min-h-[44px] rounded-lg text-[11px] font-semibold text-ink-muted min-w-[56px]"
           aria-label="Search"
         >
           <Search className="w-5 h-5" />

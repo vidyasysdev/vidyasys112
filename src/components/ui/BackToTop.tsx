@@ -46,7 +46,7 @@ export function BackToTop() {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Back to top"
       tabIndex={visible ? 0 : -1}
-      className={`fixed z-[60] right-4 bottom-20 lg:bottom-6 w-12 h-12 rounded-full grid place-items-center relative
+      className={`fixed z-[60] right-4 bottom-24 lg:bottom-6 w-12 h-12 rounded-full grid place-items-center relative
         bg-panel/90 backdrop-blur border border-hairline text-ink
         shadow-lg shadow-brand-950/15
         transition-all duration-300 hover:border-royal/50 hover:text-royal

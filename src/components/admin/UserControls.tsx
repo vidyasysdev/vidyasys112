@@ -92,7 +92,7 @@ export function StatusControl({
             type="button"
             disabled={pending || status === s}
             onClick={() => setStatus(s)}
-            className="px-2 py-1 rounded-md bg-red-50 border border-red-200 text-red-700 text-[11px] font-bold hover:bg-red-100 transition disabled:opacity-40"
+            className="px-2.5 py-2 min-h-[36px] rounded-md bg-red-50 border border-red-200 text-red-700 text-[11px] font-bold hover:bg-red-100 transition disabled:opacity-40"
             title={`Set account to ${ACCOUNT_STATUS_LABELS[s]}`}
           >
             {s === "suspended" ? "Suspend" : "Disable"}
@@ -103,7 +103,7 @@ export function StatusControl({
             type="button"
             disabled={pending}
             onClick={() => setStatus("active")}
-            className="px-2 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-bold hover:bg-emerald-100 transition disabled:opacity-40"
+            className="px-2.5 py-2 min-h-[36px] rounded-md bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-bold hover:bg-emerald-100 transition disabled:opacity-40"
           >
             Reactivate
           </button>

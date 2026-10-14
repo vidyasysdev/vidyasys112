@@ -135,7 +135,7 @@ export default function SettingsPage() {
 
       <div className="bg-panel rounded-2xl border border-hairline divide-y divide-hairline">
         {!editing ? (
-          <div className="p-4 sm:p-5 flex items-center justify-between">
+          <div className="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-3">
               <User className="w-5 h-5 text-ink-muted" />
               <div>
@@ -298,7 +298,7 @@ export default function SettingsPage() {
           </form>
         )}
 
-        <div className="p-4 sm:p-5 flex items-center justify-between">
+        <div className="p-4 sm:p-5 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-3">
             <Shield className="w-5 h-5 text-ink-muted" />
             <div>

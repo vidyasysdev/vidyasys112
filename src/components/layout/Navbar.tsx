@@ -183,7 +183,7 @@ export function Navbar() {
 
           <Link
             href="/login"
-            className="group hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-royal to-violet-600 hover:from-violet-600 hover:to-royal text-white text-sm font-bold transition-all duration-300 shadow-lg shadow-royal/30 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5 btn-shine"
+            className="group inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-royal to-violet-600 hover:from-violet-600 hover:to-royal text-white text-xs sm:text-sm font-bold transition-all duration-300 shadow-lg shadow-royal/30 hover:shadow-xl hover:shadow-violet-500/40 hover:-translate-y-0.5 btn-shine"
           >
             <LogIn className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5" />
             Sign In
@@ -202,7 +202,7 @@ export function Navbar() {
 
       {/* --------------------------- Mobile drawer --------------------------- */}
       {mobileOpen && (
-        <div className="lg:hidden menu-in border-t border-hairline px-4 py-4 space-y-3 bg-panel/95 backdrop-blur-xl">
+        <div className="lg:hidden menu-in border-t border-hairline px-4 py-4 space-y-3 bg-panel/95 backdrop-blur-xl max-h-[calc(100dvh_-_4rem)] overflow-y-auto overscroll-contain">
           <button
             onClick={() => {
               setMobileOpen(false);

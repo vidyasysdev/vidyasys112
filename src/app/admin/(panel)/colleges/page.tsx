@@ -25,7 +25,7 @@ export default async function AdminCollegesPage() {
                 <p className="text-xs text-ink-muted">{college.city}</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-xs text-ink-muted">
+            <div className="flex flex-wrap items-center gap-2 text-xs text-ink-muted">
               <span className="font-mono">{college.domain}</span>
               <span>•</span>
               <span>{college.student_count} students</span>

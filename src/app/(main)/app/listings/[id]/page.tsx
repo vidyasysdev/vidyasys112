@@ -50,7 +50,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
 
         <div className="p-6 sm:p-8 space-y-6">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-bold uppercase">
                 {listing.category.replace("_", " ")}
               </span>

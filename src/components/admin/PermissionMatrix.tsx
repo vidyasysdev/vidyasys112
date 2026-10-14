@@ -100,7 +100,7 @@ export function PermissionMatrix({ initial }: { initial: PermissionMatrixData })
                               disabled={locked || busy}
                               onClick={() => toggle(role, permission)}
                               aria-label={`Toggle ${permission} for ${ROLE_LABELS[role]}`}
-                              className={`w-8 h-8 rounded-lg border inline-flex items-center justify-center transition ${
+                              className={`w-9 h-9 rounded-lg border inline-flex items-center justify-center transition ${
                                 enabled
                                   ? "bg-emerald-50 border-emerald-200 text-emerald-600"
                                   : "bg-panel-2 border-hairline text-ink-muted"

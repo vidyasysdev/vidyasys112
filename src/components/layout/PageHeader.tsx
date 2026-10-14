@@ -27,11 +27,11 @@ export function PageHeader({
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-18 text-center space-y-5">
         <nav aria-label="Breadcrumb">
-          <ol className="flex items-center justify-center gap-1.5 text-xs font-semibold text-ink-muted">
+          <ol className="flex flex-wrap items-center justify-center gap-1.5 text-xs font-semibold text-ink-muted">
             <li>
               <Link
                 href="/"
-                className="inline-flex items-center gap-1 hover:text-royal transition"
+                className="inline-flex items-center gap-1 py-1.5 hover:text-royal transition"
               >
                 <Home className="w-3.5 h-3.5" />
                 Home

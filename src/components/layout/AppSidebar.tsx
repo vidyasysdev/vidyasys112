@@ -19,6 +19,7 @@ import {
   Shield,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { openSearch } from "@/components/search/CommandPalette";
 import { useRouter } from "next/navigation";
 
 interface AppSidebarProps {
@@ -113,8 +114,16 @@ export function AppSidebar({ user, role = "user", canModerate = false }: AppSide
       </aside>
 
       {/* Mobile bottom nav — all destinations, horizontally scrollable */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-panel border-t border-hairline px-2 py-1 safe-area-inset-bottom">
-        <div className="flex items-center gap-1 overflow-x-auto">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-panel border-t border-hairline px-2 py-1 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-center gap-1 overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_8px,black_calc(100%_-_8px),transparent)]">
+          <button
+            onClick={openSearch}
+            aria-label="Search"
+            className="flex flex-col items-center justify-center gap-0.5 px-3 py-2 min-h-[44px] rounded-lg text-[11px] font-semibold text-ink-muted transition min-w-[60px] shrink-0"
+          >
+            <Search className="w-5 h-5" />
+            Search
+          </button>
           {items.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -122,7 +131,7 @@ export function AppSidebar({ user, role = "user", canModerate = false }: AppSide
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold transition min-w-[60px] shrink-0",
+                  "flex flex-col items-center justify-center gap-0.5 px-3 py-2 min-h-[44px] rounded-lg text-[11px] font-semibold transition min-w-[60px] shrink-0",
                   isActive
                     ? "text-brand-600"
                     : "text-ink-muted"

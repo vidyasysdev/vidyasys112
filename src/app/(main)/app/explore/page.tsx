@@ -47,7 +47,7 @@ export default async function ExplorePage() {
       </div>
 
       {/* Categories */}
-      <div className="flex gap-3 overflow-x-auto pb-2">
+      <div className="flex gap-3 overflow-x-auto pb-2 [mask-image:linear-gradient(to_right,transparent,black_8px,black_calc(100%_-_8px),transparent)]">
         {categories.map((cat) => (
           <button
             key={cat.id}
@@ -80,7 +80,7 @@ export default async function ExplorePage() {
                 </div>
               )}
               <div className="p-4 space-y-2">
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-[10px] font-bold uppercase">
                     {listing.category.replace("_", " ")}
                   </span>

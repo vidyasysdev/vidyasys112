@@ -94,14 +94,14 @@ export default async function AdminListingsPage() {
                         <form action={approveListing}>
                           <input type="hidden" name="id" value={listing.id} />
                           <input type="hidden" name="title" value={listing.title} />
-                          <button type="submit" title="Approve" className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition">
+                          <button type="submit" title="Approve" className="p-2 min-h-[36px] min-w-[36px] rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition">
                             <CheckCircle className="w-4 h-4" />
                           </button>
                         </form>
                         <form action={rejectListing}>
                           <input type="hidden" name="id" value={listing.id} />
                           <input type="hidden" name="title" value={listing.title} />
-                          <button type="submit" title="Reject" className="p-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
+                          <button type="submit" title="Reject" className="p-2 min-h-[36px] min-w-[36px] rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
                             <XCircle className="w-4 h-4" />
                           </button>
                         </form>

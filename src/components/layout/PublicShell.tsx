@@ -15,7 +15,11 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
         Skip to content
       </a>
       <Navbar />
-      <main id="main-content" tabIndex={-1} className="flex-1 pb-16 lg:pb-0 outline-none">
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="flex-1 pb-[calc(4.5rem_+_env(safe-area-inset-bottom))] lg:pb-0 outline-none"
+      >
         {children}
       </main>
       <Footer />
