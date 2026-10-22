@@ -165,8 +165,8 @@ export default function HomePage() {
                   <Users className="w-[18px] h-[18px]" />
                 </div>
                 <div className="text-left">
-                  <p className="text-xs font-bold text-ink">Peer Tutor · 4.9★</p>
-                  <p className="text-[11px] text-ink-muted">Available today</p>
+                  <p className="text-xs font-bold text-ink">Peer Tutor sessions</p>
+                  <p className="text-[11px] text-ink-muted">Book on campus</p>
                 </div>
               </div>
             </div>
