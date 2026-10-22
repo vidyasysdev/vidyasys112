@@ -1,5 +1,5 @@
 import { formatDateTime } from "@/lib/utils";
-import { RoleSelect, StatusControl } from "@/components/admin/UserControls";
+import { RoleSelect, StatusControl, MakeAmbassadorButton } from "@/components/admin/UserControls";
 import { ROLE_LABELS, ROLE_BADGE_CLASSES, type RoleKey, type AccountStatus } from "@/lib/rbac";
 
 export interface AdminUserProfile {
@@ -32,7 +32,7 @@ export function RoleUsersTable({
   return (
     <div className="bg-panel rounded-xl border border-hairline overflow-hidden">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm min-w-[860px]">
+        <table className="w-full text-sm min-w-[980px]">
           <thead>
             <tr className="bg-panel-2 border-b border-hairline">
               <th className="text-left px-4 py-3 font-semibold text-ink">User</th>
@@ -99,7 +99,10 @@ export function RoleUsersTable({
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <RoleSelect userId={u.user_id} role={u.role} disabled={isSelf} />
+                    <div className="flex flex-wrap items-start gap-2">
+                      <RoleSelect userId={u.user_id} role={u.role} disabled={isSelf} />
+                      <MakeAmbassadorButton userId={u.user_id} role={u.role} disabled={isSelf} />
+                    </div>
                   </td>
                   <td className="px-4 py-3">
                     <StatusControl userId={u.user_id} status={u.account_status} allowSelf={isSelf} />
