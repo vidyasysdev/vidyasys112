@@ -165,8 +165,8 @@ export default function HomePage() {
                   <Users className="w-[18px] h-[18px]" />
                 </div>
                 <div className="text-left">
-                  <p className="text-xs font-bold text-ink">Peer Tutor sessions</p>
-                  <p className="text-[11px] text-ink-muted">Book on campus</p>
+                  <p className="text-xs font-bold text-ink">Tutor matched</p>
+                  <p className="text-[11px] text-ink-muted">DBMS viva prep · Fri 4 pm</p>
                 </div>
               </div>
             </div>
