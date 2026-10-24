@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUp, Github, Instagram, Linkedin, Mail, MapPin, Twitter } from "lucide-react";
+import { ArrowUp, Instagram, Mail, MapPin } from "lucide-react";
 
 const COLUMNS = [
   {
@@ -32,10 +32,7 @@ const COLUMNS = [
 ];
 
 const SOCIALS = [
-  { href: "https://instagram.com", label: "Instagram", icon: <Instagram className="w-4 h-4" /> },
-  { href: "https://linkedin.com", label: "LinkedIn", icon: <Linkedin className="w-4 h-4" /> },
-  { href: "https://twitter.com", label: "Twitter", icon: <Twitter className="w-4 h-4" /> },
-  { href: "https://github.com", label: "GitHub", icon: <Github className="w-4 h-4" /> },
+  { href: "https://www.instagram.com/vidyasys.in/", label: "Instagram", icon: <Instagram className="w-4 h-4" /> },
 ];
 
 export function Footer() {
