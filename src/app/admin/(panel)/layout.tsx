@@ -30,7 +30,7 @@ import { PERMISSION_KEYS, type PermissionKey } from "@/lib/rbac";
 import {
   DEMO_ADMIN_COOKIE,
   DEMO_ADMIN_EMAIL,
-  isDemoAdminToken,
+  parseDemoSession,
 } from "@/lib/demo-admin";
 
 export const metadata = {
@@ -91,17 +91,21 @@ export default async function AdminLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Local bootstrap admin (cookie set by the admin login form).
+  // Local demo session (set by the shared /login form). Only an
+  // admin-role session may open the panel — ambassadors and moderators
+  // land on their own /app pages instead.
   const cookieStore = await cookies();
-  const demoAdmin = !user && isDemoAdminToken(cookieStore.get(DEMO_ADMIN_COOKIE)?.value);
+  const demoSession = !user
+    ? parseDemoSession(cookieStore.get(DEMO_ADMIN_COOKIE)?.value)
+    : null;
 
-  if (!user && !demoAdmin) {
+  if (!user && demoSession?.role !== "admin") {
     redirect("/login");
   }
 
   let granted: string[] = [...PERMISSION_KEYS];
-  let adminEmail = DEMO_ADMIN_EMAIL;
-  let adminRole = "admin";
+  let adminEmail = demoSession?.email ?? DEMO_ADMIN_EMAIL;
+  let adminRole = demoSession?.role ?? "admin";
 
   if (user) {
     const { data: profile } = await supabase

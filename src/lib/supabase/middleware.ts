@@ -2,7 +2,11 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { APPROVED_DOMAINS } from "@/lib/utils";
 import { DEFAULT_ROLE_PERMISSIONS, type RoleKey } from "@/lib/rbac";
-import { DEMO_ADMIN_COOKIE, isDemoAdminToken } from "@/lib/demo-admin";
+import {
+  DEMO_ADMIN_COOKIE,
+  demoHomeForRole,
+  parseDemoSession,
+} from "@/lib/demo-admin";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -47,21 +51,31 @@ export async function updateSession(request: NextRequest) {
   const isCreateListingRoute = pathname === "/app/create-listing";
   const isSignupRoute = pathname === "/signup";
 
-  // Local bootstrap admin session (see src/lib/demo-admin.ts).
-  const demoAdmin = isDemoAdminToken(
-    request.cookies.get(DEMO_ADMIN_COOKIE)?.value
-  );
+  // Local demo session (see src/lib/demo-admin.ts) — any seeded role.
+  // It is ignored entirely when a real Supabase user is signed in, and only
+  // an admin-role session may open the admin panel.
+  const demoSession = user
+    ? null
+    : parseDemoSession(request.cookies.get(DEMO_ADMIN_COOKIE)?.value);
+  const demoAdmin = demoSession?.role === "admin";
 
   // The admin area has no separate login page: /login is the single entry
   // point for every role (admin, moderator, Brand Ambassador, student).
   if (
-    (isProtectedRoute ||
-      isOnboarding ||
-      (isAdminRoute && !demoAdmin)) &&
-    !user
+    (isProtectedRoute || isOnboarding || isAdminRoute) &&
+    !user &&
+    !demoSession
   ) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
+    return NextResponse.redirect(url);
+  }
+
+  // A demo session with a non-admin role is bounced out of the panel to
+  // its own landing page (ambassadors → /app/ambassador, …).
+  if (isAdminRoute && !user && demoSession && !demoAdmin) {
+    const url = request.nextUrl.clone();
+    url.pathname = demoHomeForRole(demoSession.role);
     return NextResponse.redirect(url);
   }
 
@@ -81,34 +95,26 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (user) {
+    // Single round-trip for everything the middleware needs (verification,
+    // onboarding, RBAC role, account status). `select("*")` never fails on
+    // columns the rbac-migration hasn't added yet — they are simply absent.
     const { data: profile } = await supabase
       .from("profiles")
-      .select("verification_status, onboarding_completed")
+      .select("*")
       .eq("user_id", user.id)
       .single();
 
-    // RBAC columns (supabase/rbac-migration.sql). Tolerate their absence so
-    // the app keeps working before the migration has been applied.
     let role: RoleKey = "user";
     let accountStatus = "active";
 
-    const { data: rbacProfile, error: rbacError } = await supabase
-      .from("profiles")
-      .select("role, account_status")
-      .eq("user_id", user.id)
-      .single();
-
-    if (!rbacError && rbacProfile) {
-      role = (rbacProfile.role as RoleKey) || "user";
-      accountStatus = rbacProfile.account_status || "active";
-    } else {
-      // Pre-migration fallback: is_admin flag from fix-live-db.sql
-      const { data: adminFlag } = await supabase
-        .from("profiles")
-        .select("is_admin")
-        .eq("user_id", user.id)
-        .single();
-      if (adminFlag?.is_admin === true) role = "admin";
+    if (profile) {
+      if ("role" in profile) {
+        role = (profile.role as RoleKey) || "user";
+        accountStatus = (profile.account_status as string) || "active";
+      } else if (profile.is_admin === true) {
+        // Pre-migration fallback: is_admin flag from fix-live-db.sql
+        role = "admin";
+      }
     }
 
     // Suspended / disabled accounts are routed to /suspended and nothing else.

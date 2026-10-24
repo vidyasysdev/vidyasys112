@@ -18,10 +18,14 @@ import { cookies } from "next/headers";
 import {
   DEMO_ADMIN_COOKIE,
   DEMO_ADMIN_EMAIL,
+  DEMO_ADMIN_USER_ID,
   isDemoAdminEnabled,
-  isDemoAdminToken,
+  parseDemoSession,
 } from "@/lib/demo-admin";
 import type { RoleKey, AccountStatus } from "@/lib/rbac";
+
+// Re-exported for admin pages that need the bootstrap identity.
+export { DEMO_ADMIN_USER_ID };
 
 export interface DemoProfile {
   id: string;
@@ -33,6 +37,8 @@ export interface DemoProfile {
   account_status: AccountStatus;
   verification_status: string;
   created_at: string;
+  /** Only seeded demo accounts that may sign in carry a password. */
+  password?: string;
 }
 
 export interface DemoAuditEntry {
@@ -46,9 +52,7 @@ export interface DemoAuditEntry {
   created_at: string;
 }
 
-export const DEMO_ADMIN_USER_ID = "demo-admin";
-
-const DEMO_DIR = path.join(process.cwd(), ".vidyasys-demo");
+export const DEMO_DIR = path.join(process.cwd(), ".vidyasys-demo");
 const USERS_FILE = path.join(DEMO_DIR, "users.json");
 const AUDIT_FILE = path.join(DEMO_DIR, "audit-log.json");
 const MAX_AUDIT_ENTRIES = 200;
@@ -64,7 +68,7 @@ export function isDemoStoreActive(): boolean {
   return isDemoAdminEnabled() && !isSupabaseConfigured();
 }
 
-/** Demo admin identity for call sites that need a "current user". */
+/** Current demo identity for call sites that need a "current user". */
 export async function getDemoAuthContext(): Promise<{
   userId: string;
   email: string;
@@ -73,10 +77,7 @@ export async function getDemoAuthContext(): Promise<{
   if (!isDemoStoreActive()) return null;
 
   const store = await cookies();
-  const valid = isDemoAdminToken(store.get(DEMO_ADMIN_COOKIE)?.value);
-  if (!valid) return null;
-
-  return { userId: DEMO_ADMIN_USER_ID, email: DEMO_ADMIN_EMAIL, role: "admin" };
+  return parseDemoSession(store.get(DEMO_ADMIN_COOKIE)?.value);
 }
 
 const SEED_USERS: DemoProfile[] = [
@@ -145,6 +146,18 @@ const SEED_USERS: DemoProfile[] = [
     account_status: "suspended",
     verification_status: "verified",
     created_at: "2026-06-02T10:10:00.000Z",
+  },
+  {
+    id: "seed-7",
+    user_id: "demo-yash001",
+    email: "yash@vidyasys.in",
+    full_name: "Yash",
+    branch: "Computer Engineering",
+    role: "ambassador",
+    account_status: "active",
+    verification_status: "verified",
+    created_at: "2026-10-20T09:00:00.000Z",
+    password: "rajbhosale",
   },
 ];
 

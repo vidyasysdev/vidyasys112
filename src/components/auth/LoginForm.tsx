@@ -58,19 +58,20 @@ export function LoginForm() {
       supabaseError = null;
     }
 
-    // 2) Local bootstrap admin session (see src/lib/demo-admin.ts).
+    // 2) Local demo session — any seeded role, including the fake Brand
+    //    Ambassador (see src/lib/demo-admin.ts).
     const result = await signInAsDemoAdmin(email, password);
     if (result.ok) {
-      router.push("/admin");
+      router.push(result.destination);
       router.refresh();
       return;
     }
 
     setError(
-      result.code === "invalid"
-        ? (supabaseError ?? "Incorrect email or password.")
-        : (supabaseError ??
+      result.code === "disabled"
+        ? (supabaseError ??
           "We couldn't reach the sign-in service. Please try again in a moment.")
+        : (supabaseError ?? result.error)
     );
     setLoading(false);
   };

@@ -1,41 +1,21 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import {
+  demoListUsers,
+  getDemoAuthContext,
+  isDemoStoreActive,
+} from "@/lib/demo-store";
+import { demoHomeForRole } from "@/lib/demo-admin";
 import { Handshake, Users, Copy } from "lucide-react";
 
 export const metadata = { title: "Ambassador Tools" };
 
-export default async function AmbassadorPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
+interface AmbassadorViewProps {
+  collegeCount: number;
+  inviteCode: string;
+}
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role, full_name")
-    .eq("user_id", user.id)
-    .single();
-
-  const { data: adminFlag } = await supabase
-    .from("profiles")
-    .select("is_admin")
-    .eq("user_id", user.id)
-    .single();
-
-  const isAmbassador = profile?.role === "ambassador" || adminFlag?.is_admin === true;
-  if (!isAmbassador) redirect("/app");
-
-  const { count: collegeCount } = await supabase
-    .from("profiles")
-    .select("*", { count: "exact", head: true })
-    .eq("college_id", "vpt.edu.in");
-
-  const inviteCode = `VIDYA-${(profile?.full_name || "AMB")
-    .replace(/[^a-zA-Z]/g, "")
-    .slice(0, 4)
-    .toUpperCase()}`;
-
+function AmbassadorView({ collegeCount, inviteCode }: AmbassadorViewProps) {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div>
@@ -58,7 +38,7 @@ export default async function AmbassadorPage() {
             <Users className="w-4 h-4 text-blue-600" />
             <span className="text-xs font-semibold text-ink-muted">College Members</span>
           </div>
-          <div className="text-xl font-black text-ink">{collegeCount ?? 0}</div>
+          <div className="text-xl font-black text-ink">{collegeCount}</div>
         </div>
         <div className="bg-panel rounded-xl border border-hairline p-5">
           <div className="flex items-center gap-2 mb-2">
@@ -78,5 +58,62 @@ export default async function AmbassadorPage() {
         </ul>
       </div>
     </div>
+  );
+}
+
+function inviteCodeFor(name: string): string {
+  return `VIDYA-${name.replace(/[^a-zA-Z]/g, "").slice(0, 4).toUpperCase()}`;
+}
+
+export default async function AmbassadorPage() {
+  // Local demo session (e.g. yash@vidyasys.in) — no Supabase required.
+  if (isDemoStoreActive()) {
+    const demo = await getDemoAuthContext();
+    if (!demo) redirect("/login");
+    if (demo.role !== "ambassador" && demo.role !== "admin") {
+      redirect(demoHomeForRole(demo.role));
+    }
+
+    const users = await demoListUsers();
+    const me = users.find((u) => u.user_id === demo.userId);
+    const collegeCount = users.filter((u) =>
+      u.email.toLowerCase().endsWith("@vpt.edu.in")
+    ).length;
+    const fullName = me?.full_name ?? demo.email.split("@")[0];
+
+    return (
+      <AmbassadorView
+        collegeCount={collegeCount}
+        inviteCode={inviteCodeFor(fullName)}
+      />
+    );
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, full_name, is_admin")
+    .eq("user_id", user.id)
+    .single();
+
+  const isAmbassador =
+    profile?.role === "ambassador" || profile?.is_admin === true;
+  if (!isAmbassador) redirect("/app");
+
+  const { count: collegeCount } = await supabase
+    .from("profiles")
+    .select("*", { count: "exact", head: true })
+    .eq("college_id", "vpt.edu.in");
+
+  return (
+    <AmbassadorView
+      collegeCount={collegeCount ?? 0}
+      inviteCode={inviteCodeFor(profile?.full_name || "AMB")}
+    />
   );
 }

@@ -1,8 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getDemoAuthContext } from "@/lib/demo-store";
-import type { RoleKey, PermissionKey } from "@/lib/rbac";
-import { ROLE_KEYS } from "@/lib/rbac";
+import { getDemoAuthContext, isDemoStoreActive } from "@/lib/demo-store";
+import {
+  DEFAULT_ROLE_PERMISSIONS,
+  PERMISSION_KEYS,
+  ROLE_KEYS,
+  type RoleKey,
+  type PermissionKey,
+} from "@/lib/rbac";
 
 export interface AuthContext {
   userId: string;
@@ -94,6 +99,12 @@ export async function requirePermission(permission: PermissionKey): Promise<Auth
 
   if (ctx.role === "admin") return ctx;
 
+  // Local demo store: no database to query — use the seeded defaults.
+  if (isDemoStoreActive()) {
+    if (!DEFAULT_ROLE_PERMISSIONS[ctx.role][permission]) redirect("/app");
+    return ctx;
+  }
+
   const supabase = await createClient();
   const { data } = await supabase
     .from("role_permissions")
@@ -111,6 +122,7 @@ export async function requirePermission(permission: PermissionKey): Promise<Auth
 export async function checkPermission(permission: PermissionKey): Promise<boolean> {
   const ctx = await requireUser();
   if (ctx.role === "admin") return true;
+  if (isDemoStoreActive()) return DEFAULT_ROLE_PERMISSIONS[ctx.role][permission];
 
   const supabase = await createClient();
   const { data } = await supabase
@@ -129,8 +141,12 @@ export async function checkPermission(permission: PermissionKey): Promise<boolea
  */
 export async function getRolePermissions(role: RoleKey): Promise<PermissionKey[]> {
   if (role === "admin") {
-    const { PERMISSION_KEYS } = await import("@/lib/rbac");
     return [...PERMISSION_KEYS];
+  }
+
+  // Local demo store: derive the list from the seeded defaults.
+  if (isDemoStoreActive()) {
+    return PERMISSION_KEYS.filter((p) => DEFAULT_ROLE_PERMISSIONS[role][p]);
   }
 
   const supabase = await createClient();
