@@ -2,12 +2,54 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { ShieldCheck, MapPin, BookOpen, Star } from "lucide-react";
 import { getInitials } from "@/lib/utils";
+import { demoListUsers, getDemoAuthContext, isDemoStoreActive } from "@/lib/demo-store";
 
 export const metadata = {
   title: "My Profile",
 };
 
 export default async function ProfilePage() {
+  // Local demo session — render the seeded profile instead of Supabase.
+  if (isDemoStoreActive()) {
+    const demo = await getDemoAuthContext();
+    if (!demo) redirect("/login");
+
+    const users = await demoListUsers();
+    const me = users.find((u) => u.user_id === demo.userId);
+    const displayName = me?.full_name || demo.email.split("@")[0];
+    const memberSince = me?.created_at ? new Date(me.created_at).getFullYear() : "—";
+
+    return (
+      <div className="space-y-6 max-w-4xl mx-auto">
+        <div className="bg-panel rounded-2xl border border-hairline p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row items-start gap-6">
+            <div className="w-20 h-20 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center text-2xl font-black">
+              {getInitials(displayName)}
+            </div>
+            <div className="flex-1 space-y-2 min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-2xl font-black text-ink break-words min-w-0">{displayName}</h1>
+                {me?.verification_status === "verified" && (
+                  <ShieldCheck className="w-6 h-6 text-blue-600" />
+                )}
+              </div>
+              <p className="text-sm text-ink-muted">{demo.email}</p>
+              <div className="flex flex-wrap items-center gap-3 text-xs text-ink-muted">
+                {me?.branch && (
+                  <span className="flex items-center gap-1">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    {me.branch}
+                  </span>
+                )}
+                <span>Member Since {memberSince}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 

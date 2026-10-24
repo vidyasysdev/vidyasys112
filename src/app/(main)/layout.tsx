@@ -3,12 +3,40 @@ import { createClient } from "@/lib/supabase/server";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { AppTopbar } from "@/components/layout/AppTopbar";
 import { DEFAULT_ROLE_PERMISSIONS, type RoleKey } from "@/lib/rbac";
+import { getDemoAuthContext, isDemoStoreActive } from "@/lib/demo-store";
 
 export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Local demo mode: no Supabase session exists, so the demo cookie is the
+  // only identity. Without this branch every /app page bounced back to
+  // /login (redirect fired from here even though the page rendered).
+  if (isDemoStoreActive()) {
+    const demo = await getDemoAuthContext();
+    if (!demo) redirect("/login");
+
+    const perms = DEFAULT_ROLE_PERMISSIONS[demo.role];
+    const demoUser = {
+      id: demo.userId,
+      email: demo.email,
+      user_metadata: { full_name: demo.email.split("@")[0] },
+    };
+
+    return (
+      <div className="min-h-screen bg-panel-2 flex">
+        <AppSidebar user={demoUser} role={demo.role} canModerate={perms.moderate_reports} />
+        <div className="flex-1 flex flex-col lg:ml-64">
+          <AppTopbar user={demoUser} canCreate={perms.create_content} />
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 pb-28 lg:pb-8">
+            {children}
+          </main>
+        </div>
+      </div>
+    );
+  }
+
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
