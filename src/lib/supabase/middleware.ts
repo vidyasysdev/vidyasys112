@@ -40,7 +40,6 @@ export async function updateSession(request: NextRequest) {
 
   const isOnboarding = pathname === "/onboarding";
   const isVerifyCollege = pathname === "/verify-college";
-  const isAdminLogin = pathname === "/admin/login";
   const isAdminRoute = pathname.startsWith("/admin");
   const isProtectedRoute = pathname.startsWith("/app");
   const isAuthRoute = pathname === "/login" || pathname === "/signup";
@@ -53,11 +52,12 @@ export async function updateSession(request: NextRequest) {
     request.cookies.get(DEMO_ADMIN_COOKIE)?.value
   );
 
-  // /admin/login is the single unauthenticated entry point to the admin area.
+  // The admin area has no separate login page: /login is the single entry
+  // point for every role (admin, moderator, Brand Ambassador, student).
   if (
     (isProtectedRoute ||
       isOnboarding ||
-      (isAdminRoute && !isAdminLogin && !demoAdmin)) &&
+      (isAdminRoute && !demoAdmin)) &&
     !user
   ) {
     const url = request.nextUrl.clone();
@@ -134,13 +134,6 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // An admin who opens the admin login screen goes straight to the panel.
-    if (isAdminLogin) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/admin";
-      return NextResponse.redirect(url);
-    }
-
     // Create Listing requires the create_content permission for the role.
     if (isCreateListingRoute && role !== "admin") {
       const { data: permRow } = await supabase
@@ -180,7 +173,7 @@ export async function updateSession(request: NextRequest) {
   if (isAuthRoute && user) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("verification_status, onboarding_completed")
+      .select("verification_status, onboarding_completed, role, is_admin")
       .eq("user_id", user.id)
       .single();
 
@@ -196,8 +189,10 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
+    // Already signed in: admins go to the panel, everyone else to the app.
     const url = request.nextUrl.clone();
-    url.pathname = "/app";
+    url.pathname =
+      profile.role === "admin" || profile.is_admin ? "/admin" : "/app";
     return NextResponse.redirect(url);
   }
 

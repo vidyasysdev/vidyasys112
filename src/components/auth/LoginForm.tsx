@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { signInAsDemoAdmin } from "@/app/admin/login/actions";
+import { signInAsDemoAdmin } from "@/lib/demo-admin-actions";
 import { isNetworkAuthError } from "@/lib/utils";
 import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
 
@@ -26,13 +26,27 @@ export function LoginForm() {
     let supabaseError: string | null = null;
     try {
       if (supabase) {
-        const { error } = await supabase.auth.signInWithPassword({
+        const { data: signIn, error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
 
         if (!error) {
-          router.push("/app");
+          // One login for every role: admins land on the admin panel,
+          // everyone else (moderators, ambassadors, students) lands in the app.
+          let destination = "/app";
+          const userId = signIn.user?.id;
+          if (userId) {
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("role, is_admin")
+              .eq("user_id", userId)
+              .maybeSingle();
+            if (profile && (profile.role === "admin" || profile.is_admin)) {
+              destination = "/admin";
+            }
+          }
+          router.push(destination);
           router.refresh();
           return;
         }

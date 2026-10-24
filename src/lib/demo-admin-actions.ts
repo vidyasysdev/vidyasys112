@@ -14,8 +14,9 @@ export type DemoAdminLoginResult =
 
 /**
  * Bootstrap admin sign-in used when Supabase auth is not available yet.
- * The credentials are validated here, on the server, so nothing sensitive
- * ever reaches the browser bundle.
+ * Called from the single shared /login form — there is no separate admin
+ * login page. The credentials are validated here, on the server, so nothing
+ * sensitive ever reaches the browser bundle.
  */
 export async function signInAsDemoAdmin(
   email: string,
