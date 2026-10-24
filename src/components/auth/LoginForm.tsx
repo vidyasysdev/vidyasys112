@@ -163,6 +163,7 @@ export function LoginForm() {
 
           <button
             type="submit"
+            suppressHydrationWarning
             disabled={loading}
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-bold transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -187,6 +188,7 @@ export function LoginForm() {
 
           <button
             type="button"
+            suppressHydrationWarning
             onClick={handleGoogleLogin}
             disabled={loading}
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 text-sm font-semibold text-ink hover:bg-panel-2 transition disabled:opacity-50"
