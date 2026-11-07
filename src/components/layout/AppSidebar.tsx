@@ -17,6 +17,7 @@ import {
   Gavel,
   Handshake,
   Shield,
+  Cpu,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { openSearch } from "@/components/search/CommandPalette";
@@ -34,6 +35,7 @@ interface AppSidebarProps {
 const navItems = [
   { href: "/app", label: "Home", icon: Home },
   { href: "/app/explore", label: "Explore", icon: Search },
+  { href: "/electronics", label: "Electronics Lab", icon: Cpu },
   { href: "/app/orders", label: "Orders", icon: ShoppingCart },
   { href: "/app/bookings", label: "Bookings", icon: Calendar },
   { href: "/app/messages", label: "Messages", icon: MessageSquare },

@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/notes", label: "Notes" },
   { href: "/projects", label: "Projects" },
+  { href: "/electronics", label: "Electronics Lab" },
   { href: "/tutors", label: "Tutors" },
   { href: "/partnerships", label: "Partnerships" },
   { href: "/about", label: "About" },
